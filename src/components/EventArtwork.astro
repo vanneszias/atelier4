@@ -1,6 +1,6 @@
 ---
 interface Props { slug?: string; }
-const music = Astro.props.slug === "kunstenkamp-liederenavond";
+const music = Astro.props.slug?.split("/").at(-1) === "kunstenkamp-liederenavond";
 ---
 <div class:list={["event-artwork", music ? "artwork-music" : "artwork-space"]} aria-hidden="true">
   <div class="artwork-lines"></div>

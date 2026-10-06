@@ -33,7 +33,7 @@ const locale = localeFromPath(Astro.url.pathname),
   t = messages[locale];
 const [settings, menu] = await Promise.all([
   getSiteSettingsWithCacheHint(),
-  getMenuWithCacheHint("primary_" + locale),
+  getMenuWithCacheHint("primary_" + locale, { locale }),
 ]);
 if (Astro.cache?.enabled) {
   Astro.cache.set(settings.cacheHint);

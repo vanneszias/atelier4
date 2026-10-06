@@ -10,6 +10,11 @@ const { entry, collection } = Astro.props;
 const locale = localeFromPath(Astro.url.pathname);
 const t = messages[locale];
 const path = collection === "posts" ? "stories" : collection;
+// EmDash prefixes entry IDs with the locale for translated entries.
+const slug = entry.id.startsWith(`${locale}/`)
+  ? entry.id.slice(locale.length + 1)
+  : entry.id;
+const href = localizedPath(locale, `/${path}/${slug}`);
 ---
 
 <article class:list={["card", { "event-card": collection === "events" }]}>
@@ -18,7 +23,7 @@ const path = collection === "posts" ? "stories" : collection;
       <Image image={entry.data.featured_image} class="card-image" />
     </div>
   )}
-  {collection === "events" && !entry.data.featured_image && <a class="card-art-link" href={localizedPath(locale, `/${path}/${entry.id}`)} tabindex="-1" aria-hidden="true"><EventArtwork slug={entry.id} /></a>}
+  {collection === "events" && !entry.data.featured_image && <a class="card-art-link" href={href} tabindex="-1" aria-hidden="true"><EventArtwork slug={slug} /></a>}
   {collection === "events" && (
     <>
       <span class="badge">
@@ -37,13 +42,13 @@ const path = collection === "posts" ? "stories" : collection;
     </>
   )}
   <h3 {...entry.edit.title}>
-    <a href={localizedPath(locale, `/${path}/${entry.id}`)}>
+    <a href={href}>
       {entry.data.title}
     </a>
   </h3>
   <p {...entry.edit.excerpt}>{entry.data.excerpt}</p>
   {entry.data.discipline && <span>{entry.data.discipline}</span>}
-  <a href={localizedPath(locale, `/${path}/${entry.id}`)}>
+  <a href={href}>
     {t.read}
     <span class="sr-only">: {entry.data.title}</span>
   </a>
