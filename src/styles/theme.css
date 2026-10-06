@@ -560,3 +560,263 @@ textarea {
 .theme-raspberry .card-number {
   color: #000;
 }
+
+/* Poster rhythm: a clear focal point, generous but purposeful spacing. */
+.page-section-title {
+  font-size: clamp(2.7rem, 5.4vw, 5.2rem);
+  letter-spacing: -0.045em;
+  max-width: 17ch;
+}
+.hero .grid {
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2.5rem;
+}
+.hero-title {
+  font-size: clamp(3.3rem, 6.7vw, 7.2rem);
+  max-width: 13ch;
+}
+.hero-art {
+  position: relative;
+  padding: 2rem;
+  transform: none;
+}
+.hero-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--ink);
+  transform: rotate(-6deg);
+}
+.hero-art img {
+  position: relative;
+  transform: none;
+}
+.hero-foot {
+  margin-top: 3rem;
+}
+.section .page-section-title {
+  margin-bottom: 1.5rem;
+}
+.event-artwork {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  background: var(--cobalt);
+  color: var(--paper);
+}
+.artwork-lines {
+  position: absolute;
+  inset: -30%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 41px,
+    currentColor 42px 43px,
+    transparent 44px 66px
+  );
+  opacity: 0.28;
+  transform: rotate(-14deg);
+}
+.artwork-mark {
+  position: absolute;
+  width: 72%;
+  left: 14%;
+  top: 10%;
+  transform: none;
+}
+.artwork-space {
+  background: var(--orange);
+  color: var(--ink);
+}
+.artwork-space .artwork-lines {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 55px,
+    currentColor 56px 57px,
+    transparent 58px 94px
+  );
+  transform: rotate(16deg);
+}
+.artwork-space .artwork-mark {
+  transform: none;
+}
+.artwork-corner {
+  position: absolute;
+  bottom: 10%;
+  right: 8%;
+  line-height: 0.8;
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+}
+.artwork-caption {
+  position: absolute;
+  left: 6%;
+  bottom: 5%;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-size: 0.8rem;
+}
+.event-card {
+  border: 0;
+  padding: 0 0 2rem;
+}
+.card-art-link {
+  display: block;
+  margin-bottom: 1.4rem;
+  overflow: hidden;
+}
+.event-card h3 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  max-width: 20ch;
+  margin-bottom: 1rem;
+}
+.event-card > p {
+  margin-bottom: 0.9rem;
+}
+.event-card .badge {
+  margin-bottom: 0.5rem;
+}
+.event-hero {
+  padding-block: 2.5rem 3.5rem;
+  border-bottom: 1px solid var(--ink);
+}
+.event-hero-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.event-intro h1 {
+  font-size: clamp(2.7rem, 5.5vw, 5.9rem);
+  letter-spacing: -0.04em;
+  hyphens: auto;
+  overflow-wrap: normal;
+}
+.event-lead {
+  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+  max-width: 38ch;
+}
+.back-link {
+  display: inline-block;
+  font-size: 0.95rem;
+  margin-bottom: 2.7rem;
+}
+.event-cover img {
+  width: 100%;
+  aspect-ratio: 5/4;
+  object-fit: cover;
+}
+.event-body {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  align-items: start;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: 3.5rem 5rem;
+}
+.event-body .prose {
+  font-size: 1.2rem;
+}
+.event-body .prose p + p {
+  margin-top: 1.5rem;
+}
+.event-details {
+  background: var(--yellow);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid var(--ink);
+}
+.event-details h2 {
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  text-transform: none;
+}
+.event-details dl {
+  margin-block: 1.5rem 2rem;
+}
+.event-details dt {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+.event-details dd {
+  margin: 0.2rem 0 0;
+}
+.event-details p {
+  font-size: 1rem;
+}
+.event-details .button {
+  width: 100%;
+}
+.form-panel {
+  box-shadow: 8px 8px 0 var(--cobalt);
+}
+.faq .container {
+  max-width: 64rem;
+}
+.faq details {
+  padding-block: 1.2rem;
+}
+.faq summary::marker {
+  color: var(--cobalt);
+}
+.article {
+  padding-block: 3rem 4rem;
+}
+.article .prose {
+  margin-top: 1rem;
+}
+.grid.three .card {
+  border-top: 0;
+  padding: 1.5rem;
+  background: var(--yellow);
+}
+.grid.three .card:nth-child(2) {
+  background: var(--orange);
+}
+.grid.three .card:nth-child(3) {
+  background: var(--raspberry);
+  color: #000;
+}
+.grid.three .card-number {
+  font-size: 3rem;
+  margin-bottom: 2.5rem;
+  color: inherit;
+}
+@media (max-width: 800px) {
+  .hero .grid,
+  .event-hero-grid,
+  .event-body {
+    grid-template-columns: 1fr;
+  }
+  .hero-title {
+    font-size: clamp(3.1rem, 10vw, 5rem);
+  }
+  .hero-art {
+    max-width: 18rem;
+    padding: 1rem;
+    margin-block: 1rem;
+  }
+  .event-hero {
+    padding-block: 1.5rem 2rem;
+  }
+  .event-intro h1 {
+    font-size: clamp(2.7rem, 10vw, 4.5rem);
+  }
+  .event-body {
+    padding-block: 2rem 3rem;
+  }
+  .back-link {
+    margin-bottom: 1.8rem;
+  }
+  .event-hero .event-artwork {
+    max-width: 32rem;
+    width: 100%;
+  }
+  .page-section-title {
+    font-size: clamp(2.7rem, 10vw, 4rem);
+  }
+  .artwork-corner {
+    font-size: 4rem;
+  }
+}

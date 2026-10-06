@@ -56,7 +56,20 @@ export const messages = {
     news: "Verhalen",
     artists: "Makers",
     gallery: "Galerij",
-    footer: "Een plek voor jonge mensen, Jezus en kunst.",
+    footer: "Vanuit Kunstenkamp. Voor Jezus. Met goesting om samen te maken.",
+    allEvents: "Alle events",
+    eventsIntro:
+      "Van samen zingen tot een kunstwerk in een klooster. Dit zijn de eerste ideeën waar we aan werken. Zodra er een datum vastligt, vind je die hier.",
+    practical: "Praktisch",
+    comingAlong: "Ben jij erbij?",
+    onTheWorktable: "Nog op de werktafel.",
+    when: "Wanneer",
+    where: "Waar",
+    datePending: "We zoeken nog een datum.",
+    locationPending: "De plek volgt nog.",
+    eventPlanNote:
+      "We werken dit idee nog uit. Zodra het vastligt, delen we hier de details.",
+    eventInterest: "Ik wil meedoen",
     cookies: "Anonieme bezoekersstatistieken",
     analyticsText:
       "Mogen we OpenPanel gebruiken om te begrijpen hoe deze website wordt bezocht? Formuliergegevens worden nooit meegestuurd.",
@@ -112,7 +125,21 @@ export const messages = {
     news: "Stories",
     artists: "Artists",
     gallery: "Gallery",
-    footer: "A place for young people, Jesus and art.",
+    footer:
+      "From Kunstenkamp. For Jesus. With a love of making things together.",
+    allEvents: "All events",
+    eventsIntro:
+      "From singing together to making art in a monastery. These are the first ideas we’re working on. Once a date is confirmed, you’ll find it here.",
+    practical: "The details",
+    comingAlong: "Coming along?",
+    onTheWorktable: "Still on our worktable.",
+    when: "When",
+    where: "Where",
+    datePending: "We’re finding a date.",
+    locationPending: "Venue to follow.",
+    eventPlanNote:
+      "We’re still shaping this idea. Once it’s confirmed, we’ll share the details here.",
+    eventInterest: "I’d love to join",
     cookies: "Anonymous visitor statistics",
     analyticsText:
       "May we use OpenPanel to understand how this website is visited? Form details are never sent.",

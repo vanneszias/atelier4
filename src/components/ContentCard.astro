@@ -1,4 +1,5 @@
 ---
+import EventArtwork from "./EventArtwork.astro";
 import { Image } from "emdash/ui";
 import { localeFromPath, localizedPath, messages } from "../i18n";
 interface Props {
@@ -11,12 +12,13 @@ const t = messages[locale];
 const path = collection === "posts" ? "stories" : collection;
 ---
 
-<article class="card">
+<article class:list={["card", { "event-card": collection === "events" }]}>
   {entry.data.featured_image && (
     <div {...entry.edit.featured_image}>
       <Image image={entry.data.featured_image} class="card-image" />
     </div>
   )}
+  {collection === "events" && !entry.data.featured_image && <a class="card-art-link" href={localizedPath(locale, `/${path}/${entry.id}`)} tabindex="-1" aria-hidden="true"><EventArtwork slug={entry.id} /></a>}
   {collection === "events" && (
     <>
       <span class="badge">

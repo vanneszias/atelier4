@@ -4,8 +4,10 @@ import { Image, PortableText, WidgetArea } from "emdash/ui";
 import { Comments, CommentForm } from "emdash/ui/comments";
 import Base from "../layouts/Base.astro";
 import PageSections from "./PageSections.astro";
+import EventPage from "./EventPage.astro";
+import { withoutRepeatedIntro } from "../lib/content";
 import Gallery from "./blocks/Gallery.astro";
-import { localeFromPath, localizedPath, messages, safeUrl } from "../i18n";
+import { localeFromPath, messages, safeUrl } from "../i18n";
 interface Props {
   entry: any;
   collection: string;
@@ -20,6 +22,8 @@ const seo = getSeoMeta(entry, {
   defaultDescription: entry.data.excerpt,
 });
 const blocks = entry.data.layout || [];
+const body = withoutRepeatedIntro(entry.data.content, entry.data.excerpt);
+const sectionOwnsTitle = !!blocks[0]?.heading;
 ---
 
 <Base
@@ -29,7 +33,8 @@ const blocks = entry.data.layout || [];
   image={seo.ogImage}
   content={{ collection, id: entry.data.id, slug: entry.id }}
 >
-  {blocks[0]?._type !== "hero" && (
+  {collection === "events" ? <EventPage entry={entry} /> : <>
+  {!sectionOwnsTitle && (
     <div class="container article">
       <span class="eyebrow">Atelier 4</span>
       <h1 {...entry.edit.title}>{entry.data.title}</h1>
@@ -46,50 +51,11 @@ const blocks = entry.data.layout || [];
       <PageSections value={blocks} />
     </div>
   )}
-  {entry.data.content?.length > 0 && (
+  {body.length > 0 && (
     <article class="container article">
       <div class="prose" {...entry.edit.content}>
-        <PortableText value={entry.data.content} />
+        <PortableText value={body} />
       </div>
-      {collection === "events" && (
-        <>
-          <p>
-            <span class="badge">
-              {entry.data.event_state === "preparation"
-                ? t.preparing
-                : t.events}
-            </span>
-          </p>
-          <p>
-            {entry.data.starts_at
-              ? new Intl.DateTimeFormat(locale, {
-                  dateStyle: "full",
-                  timeStyle: "short",
-                  timeZone: "Europe/Brussels",
-                }).format(new Date(entry.data.starts_at))
-              : t.dateSoon}
-          </p>
-          {entry.data.location && <p>{entry.data.location}</p>}
-          {entry.data.registration_open && entry.data.event_state === "open" ? (
-            <a
-              class="button"
-              href={
-                entry.data.registration_url
-                  ? safeUrl(entry.data.registration_url)
-                  : entry.data.capacity
-                    ? localizedPath(locale, "/contact")
-                    : localizedPath(locale, `/register?event=${entry.data.id}`)
-              }
-            >
-              {entry.data.capacity && !entry.data.registration_url
-                ? t.contact
-                : t.registration}
-            </a>
-          ) : (
-            <p>{t.unavailable}</p>
-          )}
-        </>
-      )}
       {entry.data.website && (
         <a href={safeUrl(entry.data.website)}>{entry.data.website}</a>
       )}
@@ -124,4 +90,5 @@ const blocks = entry.data.layout || [];
       }}
     />
   )}
+  </>}
 </Base>

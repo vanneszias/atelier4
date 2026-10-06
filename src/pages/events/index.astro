@@ -21,6 +21,7 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
   <section class="container article">
     <span class="eyebrow">Atelier 4</span>
     <h1>{t.events}</h1>
+    <p class="listing-intro">{t.eventsIntro}</p>
     <div class="grid">
       {entries.map((entry) => (
         <ContentCard entry={entry} collection="events" />

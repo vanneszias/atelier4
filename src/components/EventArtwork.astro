@@ -1,0 +1,10 @@
+---
+interface Props { slug?: string; }
+const music = Astro.props.slug === "kunstenkamp-liederenavond";
+---
+<div class:list={["event-artwork", music ? "artwork-music" : "artwork-space"]} aria-hidden="true">
+  <div class="artwork-lines"></div>
+  <img class="artwork-mark" src="/brand/mark.svg" alt="" width="430" height="370" />
+  <span class="artwork-corner">A4</span>
+  <span class="artwork-caption">ATELIER 4 / {music ? "01" : "02"}</span>
+</div>

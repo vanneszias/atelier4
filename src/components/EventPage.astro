@@ -1,0 +1,37 @@
+---
+import { PortableText, Image } from "emdash/ui";
+import EventArtwork from "./EventArtwork.astro";
+import { localeFromPath, localizedPath, messages, safeUrl } from "../i18n";
+import { withoutRepeatedIntro } from "../lib/content";
+const { entry } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname), t = messages[locale];
+const body = withoutRepeatedIntro(entry.data.content, entry.data.excerpt);
+const open = entry.data.registration_open && entry.data.event_state === "open";
+const registerUrl = entry.data.registration_url ? safeUrl(entry.data.registration_url) : entry.data.capacity ? localizedPath(locale, "/contact") : localizedPath(locale, `/register?event=${entry.data.id}`);
+---
+<section class="event-hero">
+  <div class="container event-hero-grid">
+    <div class="event-intro">
+      <a class="back-link" href={localizedPath(locale, "/events")}>← {t.allEvents}</a>
+      <span class="eyebrow">Atelier 4 · {t.events}</span>
+      <h1 {...entry.edit.title}>{entry.data.title}</h1>
+      {entry.data.excerpt && <p class="event-lead" {...entry.edit.excerpt}>{entry.data.excerpt}</p>}
+      <span class="badge">{entry.data.event_state === "preparation" ? t.preparing : t.events}</span>
+    </div>
+    {entry.data.featured_image ? <div class="event-cover" {...entry.edit.featured_image}><Image image={entry.data.featured_image} /></div> : <EventArtwork slug={entry.id} />}
+  </div>
+</section>
+<section class="event-body container">
+  <article class="prose" {...entry.edit.content}>
+    {body.length > 0 && <PortableText value={body} />}
+  </article>
+  <aside class="event-details" aria-labelledby="event-details-title">
+    <span class="eyebrow">{t.practical}</span>
+    <h2 id="event-details-title">{open ? t.comingAlong : t.onTheWorktable}</h2>
+    <dl>
+      <dt>{t.when}</dt><dd>{entry.data.starts_at ? new Intl.DateTimeFormat(locale, { dateStyle: "full", timeStyle: "short", timeZone: "Europe/Brussels" }).format(new Date(entry.data.starts_at)) : t.datePending}</dd>
+      <dt>{t.where}</dt><dd>{entry.data.location || t.locationPending}</dd>
+    </dl>
+    {open ? <a class="button" href={registerUrl}>{entry.data.capacity && !entry.data.registration_url ? t.contact : t.registration}</a> : <><p>{t.eventPlanNote}</p><a class="button" href={localizedPath(locale, "/join")}>{t.eventInterest}</a></>}
+  </aside>
+</section>
