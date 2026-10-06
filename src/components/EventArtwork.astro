@@ -1,10 +1,9 @@
 ---
+import { localeFromPath } from "../i18n";
 interface Props { slug?: string; }
+const locale = localeFromPath(Astro.url.pathname);
 const music = Astro.props.slug?.split("/").at(-1) === "kunstenkamp-liederenavond";
 ---
 <div class:list={["event-artwork", music ? "artwork-music" : "artwork-space"]} aria-hidden="true">
-  <div class="artwork-lines"></div>
-  <img class="artwork-mark" src="/brand/mark.svg" alt="" width="430" height="370" />
-  <span class="artwork-corner">A4</span>
-  <span class="artwork-caption">ATELIER 4 / {music ? "01" : "02"}</span>
+  {music ? <><span class="artwork-type">{locale === "nl" ? "KAMP\nLIEDEREN" : "CAMP\nSONGS"}</span><img class="artwork-mic" src="/brand/microphone.webp" alt="" loading="lazy" width="1000" height="1424" /></> : <><img class="artwork-mark" src="/brand/mark.svg" alt="" width="430" height="370" loading="lazy" /><span class="artwork-type">{locale === "nl" ? "RUIMTE\nVOOR KUNST" : "ROOM\nFOR ART"}</span></>}
 </div>

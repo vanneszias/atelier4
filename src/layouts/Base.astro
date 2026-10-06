@@ -101,6 +101,7 @@ if (content) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f3ea" />
     <title>{fullTitle}</title>
     <meta name="description" content={pageDescription} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -169,12 +170,11 @@ if (content) {
       <slot />
     </main>
     <footer class="site-footer">
+      <div class="container footer-wordmark" aria-hidden="true">ATELIER <span>4</span><img src="/brand/mark.svg" alt="" width="430" height="370" loading="lazy" /></div>
       <div class="container">
         <div class="grid">
           <div>
-            <a class="logo" href={localizedPath(locale)}>
-              {siteName.toUpperCase()}
-            </a>
+            <a class="footer-home" href={localizedPath(locale)}>{siteName}</a>
             <p style="margin-top:1rem">{t.footer}</p>
           </div>
           <div>

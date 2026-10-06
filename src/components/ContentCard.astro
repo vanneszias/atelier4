@@ -24,6 +24,7 @@ const href = localizedPath(locale, `/${path}/${slug}`);
     </div>
   )}
   {collection === "events" && !entry.data.featured_image && <a class="card-art-link" href={href} tabindex="-1" aria-hidden="true"><EventArtwork slug={slug} /></a>}
+  <div class="card-copy">
   {collection === "events" && (
     <>
       <span class="badge">
@@ -50,7 +51,8 @@ const href = localizedPath(locale, `/${path}/${slug}`);
   {entry.data.discipline && <span>{entry.data.discipline}</span>}
   <a class:list={{ "card-read-link": collection === "events" }} href={href}>
     {t.read}
-    {collection === "events" && <span class="card-read-arrow" aria-hidden="true">↗</span>}
+
     <span class="sr-only">: {entry.data.title}</span>
   </a>
+  </div>
 </article>

@@ -10,8 +10,8 @@ const { value } = Astro.props;
 const Heading = value._heading === 1 ? "h1" : "h2";
 ---
 
-<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
-  <div class="container grid">
+<section id={sectionId(value)} class:list={["section", "statement-section", themeClass(value)]}>
+  <div class="container statement-panel grid">
     <div>
       <Heading class="page-section-title" style="white-space:pre-line">{value.heading}</Heading>
     </div>

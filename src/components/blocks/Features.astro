@@ -8,13 +8,14 @@ const { value } = Astro.props;
 const Heading = value._heading === 1 ? "h1" : "h2";
 ---
 
-<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
+<section id={sectionId(value)} class:list={["section", "features-section", themeClass(value)]}>
   <div class="container">
     <Heading class="page-section-title">{value.heading}</Heading>
     {value.text && <p>{value.text}</p>}
     <div class="features-grid">
-      {value.items?.map((item) => (
+      {value.items?.map((item, index) => (
         <article class="feature-card">
+          <span class="feature-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
           <h3>{item.heading}</h3>
           <p>{item.text}</p>
         </article>

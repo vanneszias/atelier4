@@ -18,13 +18,13 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 const Heading = value._heading === 1 ? "h1" : "h2";
 ---
 
-<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
+<section id={sectionId(value)} class:list={["section", "collection-section", themeClass(value)]}>
   <div class="container">
     <div class="split-heading">
       <Heading class="page-section-title" style="white-space:pre-line">{value.heading}</Heading>
       {value.text && <p>{value.text}</p>}
     </div>
-    <div class="grid">
+    <div class:list={["grid", "collection-grid", { "single-card": entries.length === 1 }]}>
       {entries.map((entry) => (
         <ContentCard entry={entry} collection={collection} />
       ))}

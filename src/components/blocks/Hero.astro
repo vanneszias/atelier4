@@ -2,44 +2,35 @@
 import { Image } from "emdash/ui";
 import type { SectionBlock } from "../../lib/blocks";
 import { sectionId, themeClass } from "../../lib/blocks";
-import { safeUrl } from "../../i18n";
+import { safeUrl, localeFromPath } from "../../i18n";
 interface Props {
   value: SectionBlock;
 }
 const { value } = Astro.props;
 const Heading = value._heading === 2 ? "h2" : "h1";
+const locale = localeFromPath(Astro.url.pathname);
+const lines = (value.heading || "").split("\n");
 ---
 
 <section id={sectionId(value)} class:list={["hero", themeClass(value)]}>
-  <div class="container">
-    <div class="grid">
-      <div class="hero-copy">
-        <Heading class="hero-title" style="white-space:pre-line">
-          {value.heading}
-        </Heading>
-        {value.text && <p>{value.text}</p>}
-        <div class="actions">
-          {value.button_label && (
-            <a class="button" href={safeUrl(value.button_url)}>
-              {value.button_label}
-            </a>
-          )}
-          {value.secondary_label && (
-            <a class="button secondary" href={safeUrl(value.secondary_url)}>
-              {value.secondary_label}
-            </a>
-          )}
-        </div>
+  <div class="container hero-poster">
+    <div class="hero-headline">
+      <Heading class="hero-title">
+        {lines.map((line) => <span>{line}</span>)}
+      </Heading>
+    </div>
+    <div class="hero-art" aria-hidden={!value.image}>
+      {value.image ? <Image image={value.image} /> : <img src="/brand/microphone.webp" alt="" width="1000" height="1424" fetchpriority="high" />}
+    </div>
+    <div class="hero-copy">
+      {value.text && <p>{value.text}</p>}
+      <div class="actions">
+        {value.button_label && <a class="button" href={safeUrl(value.button_url)}>{value.button_label}</a>}
+        {value.secondary_label && <a class="button secondary" href={safeUrl(value.secondary_url)}>{value.secondary_label}</a>}
       </div>
-      <div class="hero-art" aria-hidden={!value.image}>
-        <>
-          {value.image ? (
-            <Image image={value.image} />
-          ) : (
-            <img src="/brand/mark.svg" alt="" width="430" height="370" />
-          )}
-        </>
-      </div>
+    </div>
+    <div class="hero-disciplines" aria-label={locale === "nl" ? "Onze vier kunstvormen" : "Our four art forms"}>
+      <span>{locale === "nl" ? "Muziek" : "Music"}</span><span>Atelier</span><span>Drama</span><span>{locale === "nl" ? "Dans" : "Dance"}</span>
     </div>
   </div>
 </section>

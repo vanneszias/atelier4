@@ -9,8 +9,8 @@ const { value } = Astro.props;
 const Heading = value._heading === 1 ? "h1" : "h2";
 ---
 
-<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
-  <div class="container">
+<section id={sectionId(value)} class:list={["section", "cta-section", themeClass(value)]}>
+  <div class="container cta-panel">
     <Heading class="page-section-title">{value.heading}</Heading>
     {value.text && <p>{value.text}</p>}
     {value.button_label && (
