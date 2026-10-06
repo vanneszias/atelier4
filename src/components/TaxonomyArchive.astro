@@ -15,6 +15,7 @@ const locale = localeFromPath(Astro.url.pathname),
   t = messages[locale];
 const terms = await getTaxonomyTermsWithCacheHint(taxonomy, {
   includeCounts: false,
+  locale,
 });
 const term = terms.data.find(
   (item) => item.slug === decodeSlug(Astro.params.slug),
@@ -36,7 +37,6 @@ if (Astro.cache?.enabled) {
 
 <Base title={term.label}>
   <section class="container article">
-    <span class="eyebrow">Atelier 4</span>
     <h1>{term.label}</h1>
     <div class="grid">
       {result.entries.map((entry) => (

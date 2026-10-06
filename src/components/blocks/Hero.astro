@@ -14,11 +14,10 @@ const Heading = value._heading === 2 ? "h2" : "h1";
   <div class="container">
     <div class="grid">
       <div class="hero-copy">
-        <span class="eyebrow">{value.eyebrow}</span>
         <Heading class="hero-title" style="white-space:pre-line">
           {value.heading}
         </Heading>
-        <p>{value.text}</p>
+        {value.text && <p>{value.text}</p>}
         <div class="actions">
           {value.button_label && (
             <a class="button" href={safeUrl(value.button_url)}>
@@ -41,10 +40,6 @@ const Heading = value._heading === 2 ? "h2" : "h1";
           )}
         </>
       </div>
-    </div>
-    <div class="hero-foot">
-      <span>Atelier 4</span>
-      <span>Kunstenkamp community</span>
     </div>
   </div>
 </section>

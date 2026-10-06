@@ -36,7 +36,6 @@ const sectionOwnsTitle = !!blocks[0]?.heading;
   {collection === "events" ? <EventPage entry={entry} /> : <>
   {!sectionOwnsTitle && (
     <div class="container article">
-      <span class="eyebrow">Atelier 4</span>
       <h1 {...entry.edit.title}>{entry.data.title}</h1>
       {!blocks.length && <p {...entry.edit.excerpt}>{entry.data.excerpt}</p>}
       {entry.data.featured_image && (

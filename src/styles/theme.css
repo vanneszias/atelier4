@@ -102,14 +102,6 @@ h3 {
 .section {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
-.eyebrow {
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.12em;
-  display: block;
-  margin-bottom: 1.25rem;
-}
 .theme-paper {
   background: var(--paper);
   color: var(--ink);
@@ -139,32 +131,118 @@ h3 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
 }
-.grid.three {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
 .button {
+  --button-bg: var(--ink);
+  --button-text: var(--paper);
+  --button-border: var(--ink);
+  --button-hover-bg: var(--cobalt);
+  --button-hover-text: var(--paper);
+  --button-hover-border: var(--cobalt);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 3.2rem;
   padding: 0.7rem 1.4rem;
-  background: var(--ink);
-  color: var(--paper);
-  border: 2px solid var(--ink);
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: 2px solid var(--button-border);
   text-decoration: none;
   font-weight: 700;
   border-radius: 0;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
 }
 .button.secondary {
-  background: transparent;
-  color: inherit;
-  border-color: currentColor;
+  --button-bg: transparent;
+  --button-text: currentColor;
+  --button-border: currentColor;
+  --button-hover-bg: var(--ink);
+  --button-hover-text: var(--paper);
+  --button-hover-border: var(--ink);
 }
 .theme-ink .button,
 .theme-cobalt .button {
+  --button-bg: var(--yellow);
+  --button-text: var(--ink);
+  --button-border: var(--yellow);
+  --button-hover-bg: var(--paper);
+  --button-hover-text: var(--ink);
+  --button-hover-border: var(--paper);
+}
+.theme-ink .button.secondary,
+.theme-cobalt .button.secondary {
+  --button-bg: transparent;
+  --button-text: var(--paper);
+  --button-border: var(--paper);
+}
+@media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):hover {
+    background: var(--button-hover-bg);
+    color: var(--button-hover-text);
+    border-color: var(--button-hover-border);
+    transform: translateY(-2px);
+  }
+}
+.button:focus-visible {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-text);
+  border-color: var(--button-hover-border);
+}
+.button:not(:disabled):active {
+  transform: translateY(0);
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.hero .actions {
+  margin-top: 1.75rem;
+  gap: 0.75rem;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+.feature-card::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 3px;
+  margin-bottom: 1.5rem;
+  background: var(--raspberry);
+}
+.feature-card:nth-child(2)::before {
+  background: var(--cobalt);
+}
+.feature-card:nth-child(3)::before {
+  background: var(--orange);
+}
+.feature-card:nth-child(4)::before {
   background: var(--yellow);
-  border-color: var(--yellow);
-  color: var(--ink);
+}
+.feature-card h3 {
+  margin-bottom: 0.75rem;
+}
+.feature-card p {
+  margin: 0;
+  font-size: 1.05rem;
+}
+@media (max-width: 1050px) {
+  .features-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
 }
 .actions {
   display: flex;
@@ -187,7 +265,6 @@ h3 {
 }
 .site-header {
   padding-block: 1.7rem;
-  border-bottom: 1px solid var(--ink);
 }
 .header-inner {
   display: flex;
@@ -229,7 +306,6 @@ h3 {
 .locale-switch {
   display: flex;
   gap: 0.7rem;
-  border-left: 1px solid;
   padding-left: 1.2rem;
 }
 .locale-switch [aria-current] {
@@ -237,39 +313,29 @@ h3 {
   text-decoration: underline;
 }
 .hero {
-  padding-block: clamp(3.5rem, 7vw, 7rem);
+  padding-block: clamp(3rem, 5vw, 5rem) clamp(4rem, 6vw, 6rem);
   position: relative;
-  overflow: hidden;
 }
 .hero .grid {
-  grid-template-columns: 1.8fr 1fr;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
   align-items: center;
-  gap: 3rem;
+  gap: clamp(2rem, 5vw, 4rem);
 }
 .hero-copy {
   position: relative;
   z-index: 1;
 }
 .hero p {
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
-  max-width: 40ch;
+  font-size: clamp(1.15rem, 1.65vw, 1.35rem);
+  max-width: 43ch;
+  margin-bottom: 0;
 }
 .hero-art {
-  width: 100%;
-  transform: rotate(-9deg);
+  width: min(100%, 24rem);
+  margin-inline: auto;
 }
 .hero-art img {
   width: 100%;
-}
-.hero-foot {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5rem;
-  border-top: 1px solid;
-  padding-top: 1.25rem;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 .card {
   border-top: 2px solid;
@@ -298,13 +364,6 @@ h3 {
   font-size: 0.875rem;
   font-weight: 700;
   margin-bottom: 1.25rem;
-}
-.card-number {
-  font-size: clamp(3rem, 6vw, 6rem);
-  font-weight: 800;
-  line-height: 1;
-  color: var(--cobalt);
-  margin-bottom: 1.75rem;
 }
 .split-heading {
   display: flex;
@@ -495,19 +554,8 @@ textarea {
     width: calc(100% - 2.5rem);
   }
   .grid,
-  .grid.three,
   .hero .grid {
     grid-template-columns: 1fr;
-  }
-  .hero-art {
-    max-width: 18rem;
-    margin: 0 auto;
-    transform: rotate(-8deg);
-  }
-  .hero-foot {
-    margin-top: 2.5rem;
-    gap: 1rem;
-    flex-wrap: wrap;
   }
   .nav {
     gap: 1rem;
@@ -529,6 +577,9 @@ textarea {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .button {
+    transform: none !important;
+  }
   html {
     scroll-behavior: auto;
   }
@@ -550,49 +601,18 @@ textarea {
 }
 
 .hero-title {
-  font-size: clamp(3.2rem, 9vw, 8.7rem);
-  letter-spacing: -0.055em;
-}
-.theme-ink .card-number,
-.theme-cobalt .card-number {
-  color: var(--yellow);
-}
-.theme-raspberry .card-number {
-  color: #000;
+  font-size: clamp(3rem, 5.2vw, 5.4rem);
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  max-width: 19ch;
+  margin-bottom: 1.5rem;
 }
 
-/* Poster rhythm: a clear focal point, generous but purposeful spacing. */
+/* Section typography and event artwork. */
 .page-section-title {
   font-size: clamp(2.7rem, 5.4vw, 5.2rem);
   letter-spacing: -0.045em;
   max-width: 17ch;
-}
-.hero .grid {
-  grid-template-columns: 1.5fr 1fr;
-  gap: 2.5rem;
-}
-.hero-title {
-  font-size: clamp(3.3rem, 6.7vw, 7.2rem);
-  max-width: 13ch;
-}
-.hero-art {
-  position: relative;
-  padding: 2rem;
-  transform: none;
-}
-.hero-art::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--ink);
-  transform: rotate(-6deg);
-}
-.hero-art img {
-  position: relative;
-  transform: none;
-}
-.hero-foot {
-  margin-top: 3rem;
 }
 .section .page-section-title {
   margin-bottom: 1.5rem;
@@ -768,36 +788,21 @@ textarea {
 .article .prose {
   margin-top: 1rem;
 }
-.grid.three .card {
-  border-top: 0;
-  padding: 1.5rem;
-  background: var(--yellow);
-}
-.grid.three .card:nth-child(2) {
-  background: var(--orange);
-}
-.grid.three .card:nth-child(3) {
-  background: var(--raspberry);
-  color: #000;
-}
-.grid.three .card-number {
-  font-size: 3rem;
-  margin-bottom: 2.5rem;
-  color: inherit;
-}
 @media (max-width: 800px) {
   .hero .grid,
   .event-hero-grid,
   .event-body {
     grid-template-columns: 1fr;
   }
+  .hero {
+    padding-block: 2.5rem 4rem;
+  }
   .hero-title {
-    font-size: clamp(3.1rem, 10vw, 5rem);
+    font-size: clamp(2.6rem, 10.5vw, 4rem);
+    max-width: none;
   }
   .hero-art {
-    max-width: 18rem;
-    padding: 1rem;
-    margin-block: 1rem;
+    display: none;
   }
   .event-hero {
     padding-block: 1.5rem 2rem;

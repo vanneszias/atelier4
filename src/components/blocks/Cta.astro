@@ -11,9 +11,8 @@ const Heading = value._heading === 1 ? "h1" : "h2";
 
 <section id={sectionId(value)} class:list={["section", themeClass(value)]}>
   <div class="container">
-    <span class="eyebrow">{value.eyebrow}</span>
     <Heading class="page-section-title">{value.heading}</Heading>
-    <p>{value.text}</p>
+    {value.text && <p>{value.text}</p>}
     {value.button_label && (
       <a class="button" href={safeUrl(value.button_url)}>
         {value.button_label}

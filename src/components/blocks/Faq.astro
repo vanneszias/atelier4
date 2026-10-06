@@ -13,9 +13,8 @@ const Heading = value._heading === 1 ? "h1" : "h2";
   class:list={["section", "faq", themeClass(value)]}
 >
   <div class="container">
-    <span class="eyebrow">{value.eyebrow}</span>
     <Heading class="page-section-title">{value.heading}</Heading>
-    <p>{value.text}</p>
+    {value.text && <p>{value.text}</p>}
     {value.items?.map((item) => (
       <details>
         <summary>{item.heading}</summary>

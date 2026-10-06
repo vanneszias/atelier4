@@ -937,7 +937,7 @@
         "status": "published",
         "data": {
           "title": "Atelier 4",
-          "excerpt": "Samen muziek maken, iets nieuws proberen en ons geloof delen. Waarom zouden we daarmee wachten tot het volgende Kunstenkamp? Met Atelier 4 willen we ook doorheen het jaar samenkomen rond Jezus en kunst.",
+          "excerpt": "Vanuit Kunstenkamp blijven we samen muziek maken, creëren, spelen en dansen. Omdat we van kunst én van Jezus houden.",
           "layout": [
             {
               "_type": "hero",
@@ -945,12 +945,11 @@
               "_key": "hero",
               "anchor": "intro",
               "theme": "paper",
-              "eyebrow": "Vanuit Kunstenkamp",
-              "heading": "Het kamp is voorbij.\nDe goesting niet.",
-              "text": "Samen muziek maken, iets nieuws proberen en ons geloof delen. Waarom zouden we daarmee wachten tot het volgende Kunstenkamp? Met Atelier 4 willen we ook doorheen het jaar samenkomen rond Jezus en kunst.",
-              "button_label": "Wat zijn we van plan?",
+              "heading": "Samen maken.\nSamen geloven.",
+              "text": "Vanuit Kunstenkamp blijven we samen muziek maken, creëren, spelen en dansen. Omdat we van kunst én van Jezus houden.",
+              "button_label": "Onze plannen",
               "button_url": "#events",
-              "secondary_label": "Ik doe mee",
+              "secondary_label": "Doe mee",
               "secondary_url": "/join"
             },
             {
@@ -959,7 +958,6 @@
               "_key": "mission",
               "anchor": "over",
               "theme": "cobalt",
-              "eyebrow": "Daarom Atelier 4",
               "heading": "Dat willen we\nvasthouden.",
               "text": "Je speelt samen een lied. Iemand deelt een tekst die blijft hangen. Er ontstaat iets dat je alleen nooit had gemaakt. Dat is wat we zo mooi vinden aan Kunstenkamp. Met kunstavonden willen we daar verder op bouwen: samen creëren, elkaar ontmoeten en God eren met wat we maken."
             },
@@ -969,20 +967,23 @@
               "_key": "disciplines",
               "anchor": "kunst",
               "theme": "paper",
-              "eyebrow": "Wat breng jij mee?",
-              "heading": "Je hoeft niet alles te kunnen.",
+              "heading": "Wat maak jij?",
               "items": [
                 {
                   "heading": "Muziek",
-                  "text": "Een gitaar, een stem, een half afgewerkt lied. Neem mee wat je hebt. We zijn benieuwd naar jouw geluid."
+                  "text": "Een stem, een instrument, een lied. Samen klinkt het anders."
                 },
                 {
-                  "heading": "Beeld",
-                  "text": "Een schetsboek vol ideeën? Een camera die altijd meegaat? Of gewoon zin om je handen vuil te maken?"
+                  "heading": "Atelier",
+                  "text": "Tekenen, schilderen, bouwen. Een idee krijgt vorm in je handen."
                 },
                 {
-                  "heading": "Woord & beweging",
-                  "text": "Een gedicht, een dans, een verhaal dat eruit moet. Ook daar willen we ruimte voor maken."
+                  "heading": "Drama",
+                  "text": "Een personage, een verhaal, een scène. Samen brengen we het tot leven."
+                },
+                {
+                  "heading": "Dans",
+                  "text": "Van een eerste beweging tot een hele choreografie. Geef je verhaal de ruimte."
                 }
               ]
             },
@@ -992,7 +993,6 @@
               "_key": "events",
               "anchor": "events",
               "theme": "paper",
-              "eyebrow": "Op de werktafel",
               "heading": "Hier dromen we van.",
               "text": "Twee ideeën waar we graag werk van maken. Nog geen data om in je agenda te zetten, wel genoeg om naar uit te kijken.",
               "limit": 6
@@ -1003,7 +1003,6 @@
               "_key": "community",
               "anchor": "community",
               "theme": "yellow",
-              "eyebrow": "Haak aan",
               "heading": "Dit begint\nmet mensen.",
               "text": "Zin om mee te doen? Vertel ons wat je graag maakt, waar je van droomt of hoe je wilt helpen. Je hoeft geen portfolio of groots plan te hebben. We leren je gewoon graag kennen.",
               "button_label": "Schuif erbij",
@@ -1042,17 +1041,16 @@
         "status": "published",
         "data": {
           "title": "Schuif erbij.",
-          "excerpt": "Maak je muziek, teken je, dans je, schrijf je? Of help je liever met licht, geluid of een hoop praktische dingen? Vertel ons waar jij zin in hebt. Atelier 4 staat nog aan het begin en we bouwen graag samen met jou.",
+          "excerpt": "Muziek, atelier, drama of dans: waar krijg jij zin in? Of help je liever achter de schermen? Vertel ons wat je graag doet. We bouwen Atelier 4 graag samen met jou.",
           "layout": [
             {
               "_type": "form",
               "_version": 1,
               "_key": "join",
               "heading": "Schuif erbij.",
-              "text": "Maak je muziek, teken je, dans je, schrijf je? Of help je liever met licht, geluid of een hoop praktische dingen? Vertel ons waar jij zin in hebt. Atelier 4 staat nog aan het begin en we bouwen graag samen met jou.",
+              "text": "Muziek, atelier, drama of dans: waar krijg jij zin in? Of help je liever achter de schermen? Vertel ons wat je graag doet. We bouwen Atelier 4 graag samen met jou.",
               "theme": "paper",
-              "form_type": "community",
-              "eyebrow": "Atelier 4"
+              "form_type": "community"
             }
           ]
         }
@@ -1073,8 +1071,7 @@
               "heading": "Mis de eerste avond niet.",
               "text": "Wil je horen wanneer er een datum vastligt? Laat je naam en e-mailadres achter. Zo weten we dat je nieuws van Atelier 4 wilt ontvangen.",
               "theme": "paper",
-              "form_type": "newsletter",
-              "eyebrow": "Atelier 4"
+              "form_type": "newsletter"
             }
           ]
         }
@@ -1095,8 +1092,7 @@
               "heading": "Wat maak jij?",
               "text": "We zijn benieuwd naar je werk én de persoon erachter. Vertel ons wat je maakt, wat je inspireert en of je iets zou willen delen op een kunstavond. Een eerste idee is ook welkom.",
               "theme": "paper",
-              "form_type": "artist",
-              "eyebrow": "Atelier 4"
+              "form_type": "artist"
             }
           ]
         }
@@ -1117,8 +1113,7 @@
               "heading": "Hé, vertel eens.",
               "text": "Een vraag, een wild idee of een plek waar we een avond kunnen organiseren? Stuur ons gerust een bericht. We horen het graag.",
               "theme": "paper",
-              "form_type": "contact",
-              "eyebrow": "Atelier 4"
+              "form_type": "contact"
             }
           ]
         }
@@ -1139,8 +1134,7 @@
               "heading": "Ben jij erbij?",
               "text": "Hier kun je je inschrijven zodra een avond vastligt. Voorlopig zijn we nog aan het plannen. Zin om intussen mee te denken? Laat van je horen via de community.",
               "theme": "paper",
-              "form_type": "registration",
-              "eyebrow": "Atelier 4"
+              "form_type": "registration"
             }
           ]
         }
@@ -1179,7 +1173,7 @@
         "status": "published",
         "data": {
           "title": "Atelier 4",
-          "excerpt": "Making music together, trying something new and sharing our faith. Why wait until the next Kunstenkamp? With Atelier 4, we want to keep meeting around Jesus and art throughout the year.",
+          "excerpt": "We’re bringing the creativity of Kunstenkamp into the rest of the year. Music, atelier, drama and dance, with Jesus at the heart.",
           "layout": [
             {
               "_type": "hero",
@@ -1187,12 +1181,11 @@
               "_key": "hero",
               "anchor": "intro",
               "theme": "paper",
-              "eyebrow": "Growing out of Kunstenkamp",
-              "heading": "Camp ends.\nCreativity doesn’t.",
-              "text": "Making music together, trying something new and sharing our faith. Why wait until the next Kunstenkamp? With Atelier 4, we want to keep meeting around Jesus and art throughout the year.",
-              "button_label": "See what we’re planning",
+              "heading": "Make art.\nShare faith.",
+              "text": "We’re bringing the creativity of Kunstenkamp into the rest of the year. Music, atelier, drama and dance, with Jesus at the heart.",
+              "button_label": "Our plans",
               "button_url": "#events",
-              "secondary_label": "Count me in",
+              "secondary_label": "Join in",
               "secondary_url": "/en/join"
             },
             {
@@ -1201,7 +1194,6 @@
               "_key": "mission",
               "anchor": "over",
               "theme": "cobalt",
-              "eyebrow": "Why Atelier 4",
               "heading": "Let’s keep\nthat going.",
               "text": "You play a song together. Someone shares a poem that stays with you. Something happens that none of you could have made alone. That’s what we love about Kunstenkamp. We want to build on it with art nights: making things, meeting each other and honouring God through what we create."
             },
@@ -1211,20 +1203,23 @@
               "_key": "disciplines",
               "anchor": "kunst",
               "theme": "paper",
-              "eyebrow": "What would you bring?",
-              "heading": "You don’t have to do it all.",
+              "heading": "What do you make?",
               "items": [
                 {
                   "heading": "Music",
-                  "text": "A guitar, a voice, a half-finished song. Bring what you have. We’d love to hear your sound."
+                  "text": "A voice, an instrument, a song. It sounds different when we play together."
                 },
                 {
-                  "heading": "Visual art",
-                  "text": "A sketchbook full of ideas? A camera that goes everywhere? Or just an urge to get your hands messy?"
+                  "heading": "Atelier",
+                  "text": "Drawing, painting, building. Give an idea a shape with your own hands."
                 },
                 {
-                  "heading": "Words & movement",
-                  "text": "A poem, a dance, a story you need to tell. We want to make room for those too."
+                  "heading": "Drama",
+                  "text": "A character, a story, a scene. Bring it to life together."
+                },
+                {
+                  "heading": "Dance",
+                  "text": "From a first movement to a whole choreography. Give your story room to move."
                 }
               ]
             },
@@ -1234,7 +1229,6 @@
               "_key": "events",
               "anchor": "events",
               "theme": "paper",
-              "eyebrow": "On our worktable",
               "heading": "Here’s what we’re dreaming of.",
               "text": "Two ideas we’re excited to work on. No dates for your calendar just yet, but plenty to look forward to.",
               "limit": 6
@@ -1245,7 +1239,6 @@
               "_key": "community",
               "anchor": "community",
               "theme": "yellow",
-              "eyebrow": "Come along",
               "heading": "It starts\nwith people.",
               "text": "Want to join us? Tell us what you love making, what you’re dreaming of or how you’d like to help. No portfolio or grand plan needed. We’d simply love to get to know you.",
               "button_label": "Come join us",
@@ -1285,17 +1278,16 @@
         "status": "published",
         "data": {
           "title": "Pull up a chair.",
-          "excerpt": "Do you make music, draw, dance or write? Or would you rather help with lights, sound or the practical bits? Tell us what you’d enjoy. Atelier 4 is just getting started, and we’d love to build it with you.",
+          "excerpt": "Music, atelier, drama or dance: what would you like to try? Or would you rather help behind the scenes? Tell us what you enjoy. We’d love to build Atelier 4 with you.",
           "layout": [
             {
               "_type": "form",
               "_version": 1,
               "_key": "join",
               "heading": "Pull up a chair.",
-              "text": "Do you make music, draw, dance or write? Or would you rather help with lights, sound or the practical bits? Tell us what you’d enjoy. Atelier 4 is just getting started, and we’d love to build it with you.",
+              "text": "Music, atelier, drama or dance: what would you like to try? Or would you rather help behind the scenes? Tell us what you enjoy. We’d love to build Atelier 4 with you.",
               "theme": "paper",
-              "form_type": "community",
-              "eyebrow": "Atelier 4"
+              "form_type": "community"
             }
           ]
         },
@@ -1317,8 +1309,7 @@
               "heading": "Don’t miss the first night.",
               "text": "Want to hear when a date is confirmed? Leave your name and email so we know you’d like to receive Atelier 4 news.",
               "theme": "paper",
-              "form_type": "newsletter",
-              "eyebrow": "Atelier 4"
+              "form_type": "newsletter"
             }
           ]
         },
@@ -1340,8 +1331,7 @@
               "heading": "What do you make?",
               "text": "We’d love to meet you and hear about your work. Tell us what you make, what inspires you and whether you’d like to share something at an art night. A first idea is welcome too.",
               "theme": "paper",
-              "form_type": "artist",
-              "eyebrow": "Atelier 4"
+              "form_type": "artist"
             }
           ]
         },
@@ -1363,8 +1353,7 @@
               "heading": "Hey, tell us.",
               "text": "A question, a wild idea or a place where we could host a night? Send us a message. We’d love to hear it.",
               "theme": "paper",
-              "form_type": "contact",
-              "eyebrow": "Atelier 4"
+              "form_type": "contact"
             }
           ]
         },
@@ -1386,8 +1375,7 @@
               "heading": "Coming along?",
               "text": "You’ll be able to register here when a night is confirmed. We’re still planning for now. Want to help us shape it in the meantime? Say hello through the community.",
               "theme": "paper",
-              "form_type": "registration",
-              "eyebrow": "Atelier 4"
+              "form_type": "registration"
             }
           ]
         },
@@ -1758,20 +1746,52 @@
       ],
       "terms": [
         {
+          "id": "discipline-music-nl",
           "slug": "music",
-          "label": "Music"
+          "label": "Muziek",
+          "locale": "nl"
+        },
+        {
+          "id": "discipline-visual_art-nl",
+          "slug": "visual_art",
+          "label": "Atelier",
+          "locale": "nl"
+        },
+        {
+          "id": "discipline-word-nl",
+          "slug": "word",
+          "label": "Drama",
+          "locale": "nl"
+        },
+        {
+          "id": "discipline-dance-nl",
+          "slug": "dance",
+          "label": "Dans",
+          "locale": "nl"
+        },
+        {
+          "slug": "music",
+          "label": "Music",
+          "locale": "en",
+          "translationOf": "discipline-music-nl"
         },
         {
           "slug": "visual_art",
-          "label": "Visual_Art"
-        },
-        {
-          "slug": "dance",
-          "label": "Dance"
+          "label": "Atelier",
+          "locale": "en",
+          "translationOf": "discipline-visual_art-nl"
         },
         {
           "slug": "word",
-          "label": "Word"
+          "label": "Drama",
+          "locale": "en",
+          "translationOf": "discipline-word-nl"
+        },
+        {
+          "slug": "dance",
+          "label": "Dance",
+          "locale": "en",
+          "translationOf": "discipline-dance-nl"
         }
       ]
     },

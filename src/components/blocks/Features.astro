@@ -10,18 +10,14 @@ const Heading = value._heading === 1 ? "h1" : "h2";
 
 <section id={sectionId(value)} class:list={["section", themeClass(value)]}>
   <div class="container">
-    <span class="eyebrow">{value.eyebrow}</span>
     <Heading class="page-section-title">{value.heading}</Heading>
-    <p>{value.text}</p>
-    <div class="grid three">
-      {value.items?.map((item, i) => (
-        <div class="card">
-          <div class="card-number" aria-hidden="true">
-            {String(i + 1).padStart(2, "0")}.
-          </div>
+    {value.text && <p>{value.text}</p>}
+    <div class="features-grid">
+      {value.items?.map((item) => (
+        <article class="feature-card">
           <h3>{item.heading}</h3>
           <p>{item.text}</p>
-        </div>
+        </article>
       ))}
     </div>
   </div>

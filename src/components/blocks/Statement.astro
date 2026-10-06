@@ -13,11 +13,10 @@ const Heading = value._heading === 1 ? "h1" : "h2";
 <section id={sectionId(value)} class:list={["section", themeClass(value)]}>
   <div class="container grid">
     <div>
-      <span class="eyebrow">{value.eyebrow}</span>
       <Heading class="page-section-title" style="white-space:pre-line">{value.heading}</Heading>
     </div>
     <div>
-      <p>{value.text}</p>
+      {value.text && <p>{value.text}</p>}
       {value.content && <PortableText value={value.content} />}{" "}
       {value.button_label && (
         <a class="button" href={safeUrl(value.button_url)}>

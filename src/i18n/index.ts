@@ -34,7 +34,7 @@ export const messages = {
     name: "Naam",
     email: "E-mailadres",
     discipline: "Jouw kunstvorm",
-    disciplineHint: "Muziek, beeldende kunst, dans, woord…",
+    disciplineHint: "Muziek, atelier, drama, dans…",
     help: "Ik wil graag actief meewerken",
     updates: "Houd me op de hoogte van Atelier 4",
     consent:
@@ -104,7 +104,7 @@ export const messages = {
     name: "Name",
     email: "Email address",
     discipline: "Your art form",
-    disciplineHint: "Music, visual art, dance, spoken word…",
+    disciplineHint: "Music, atelier, drama, dance…",
     help: "I would like to actively help",
     updates: "Keep me updated about Atelier 4",
     consent: "I agree to the processing of my details for this request.",

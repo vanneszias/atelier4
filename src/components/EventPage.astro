@@ -13,7 +13,6 @@ const registerUrl = entry.data.registration_url ? safeUrl(entry.data.registratio
   <div class="container event-hero-grid">
     <div class="event-intro">
       <a class="back-link" href={localizedPath(locale, "/events")}>← {t.allEvents}</a>
-      <span class="eyebrow">Atelier 4 · {t.events}</span>
       <h1 {...entry.edit.title}>{entry.data.title}</h1>
       {entry.data.excerpt && <p class="event-lead" {...entry.edit.excerpt}>{entry.data.excerpt}</p>}
       <span class="badge">{entry.data.event_state === "preparation" ? t.preparing : t.events}</span>
@@ -26,7 +25,6 @@ const registerUrl = entry.data.registration_url ? safeUrl(entry.data.registratio
     {body.length > 0 && <PortableText value={body} />}
   </article>
   <aside class="event-details" aria-labelledby="event-details-title">
-    <span class="eyebrow">{t.practical}</span>
     <h2 id="event-details-title">{open ? t.comingAlong : t.onTheWorktable}</h2>
     <dl>
       <dt>{t.when}</dt><dd>{entry.data.starts_at ? new Intl.DateTimeFormat(locale, { dateStyle: "full", timeStyle: "short", timeZone: "Europe/Brussels" }).format(new Date(entry.data.starts_at)) : t.datePending}</dd>

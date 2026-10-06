@@ -34,9 +34,8 @@ const Heading = value._heading === 1 ? "h1" : "h2";
 <section id={id} class:list={["section", themeClass(value)]}>
   <div class="container grid">
     <div>
-      <span class="eyebrow">{value.eyebrow}</span>
       <Heading class="page-section-title" style="white-space:pre-line">{value.heading}</Heading>
-      <p>{value.text}</p>
+      {value.text && <p>{value.text}</p>}
       {type === "artist" && <p>{t.artistConsent}</p>}
       <p>
         <a href="mailto:contact@ateliervier.be">contact@ateliervier.be</a>
