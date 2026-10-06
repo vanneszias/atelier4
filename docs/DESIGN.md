@@ -6,8 +6,8 @@ The reference is the owner's Kunstenkamp site, studied on 6 October 2026. Its st
 
 ## Design decisions
 
-- Compose the homepage as four poster panels: raspberry headline, cobalt image, ink invitation, and yellow art forms. Retain the short editable CMS heading and copy.
-- Reuse the owner's original microphone cutout, optimised to a 62 KB WebP. This visual ties the site to Kunstenkamp without changing the Atelier 4 logo.
+- Compose the homepage as a full-width raspberry typographic poster above an ink invitation and yellow art forms. Retain the short editable CMS heading and copy. A CMS image remains optional.
+- Keep the hero focused on typography. Reuse the owner's original microphone cutout, optimised to a 62 KB WebP, only in the song-night artwork.
 - Give Muziek, Atelier, Drama, and Dans equally weighted tiles, each in a brand colour. Their numbers describe the four art forms rather than acting as decorative section labels.
 - Pace the rest of the page with paper, generous editorial spacing, one featured event, and a yellow invitation. Avoid repeated full-width colour bands.
 - Use one bundled Jost font consistently across platforms. Headings are bold and compact; long reading passages are quieter and comfortably spaced.
