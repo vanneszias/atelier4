@@ -619,9 +619,11 @@ textarea {
 }
 .artwork-mark {
   position: absolute;
-  width: 72%;
-  left: 14%;
-  top: 10%;
+  width: 62%;
+  left: 9%;
+  top: 8%;
+  padding: 1.25rem;
+  background: var(--paper);
   transform: none;
 }
 .artwork-space {
