@@ -19,7 +19,7 @@ const href = localizedPath(locale, `/${path}/${slug}`);
 
 <article class:list={["card", { "event-card": collection === "events" }]}>
   {entry.data.featured_image && (
-    <div {...entry.edit.featured_image}>
+    <div class:list={{ "card-image-frame": collection === "events" }} {...entry.edit.featured_image}>
       <Image image={entry.data.featured_image} class="card-image" />
     </div>
   )}
@@ -48,8 +48,9 @@ const href = localizedPath(locale, `/${path}/${slug}`);
   </h3>
   <p {...entry.edit.excerpt}>{entry.data.excerpt}</p>
   {entry.data.discipline && <span>{entry.data.discipline}</span>}
-  <a href={href}>
+  <a class:list={{ "card-read-link": collection === "events" }} href={href}>
     {t.read}
+    {collection === "events" && <span class="card-read-arrow" aria-hidden="true">↗</span>}
     <span class="sr-only">: {entry.data.title}</span>
   </a>
 </article>

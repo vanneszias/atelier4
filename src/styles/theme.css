@@ -287,6 +287,7 @@ h3 {
   width: 3rem;
 }
 .nav {
+  margin-left: auto;
   display: flex;
   gap: 1.6rem;
   align-items: center;
@@ -306,7 +307,13 @@ h3 {
 .locale-switch {
   display: flex;
   gap: 0.7rem;
-  padding-left: 1.2rem;
+}
+.locale-switch a {
+  min-height: 2.75rem;
+  min-width: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .locale-switch [aria-current] {
   font-weight: 800;
@@ -328,6 +335,7 @@ h3 {
 .hero p {
   font-size: clamp(1.15rem, 1.65vw, 1.35rem);
   max-width: 43ch;
+  text-wrap: pretty;
   margin-bottom: 0;
 }
 .hero-art {
@@ -558,7 +566,11 @@ textarea {
     grid-template-columns: 1fr;
   }
   .nav {
-    gap: 1rem;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-left: 0;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
   .split-heading {
     display: block;
@@ -567,7 +579,17 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .header-inner {
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem 1rem;
+  }
+  .header-inner > .logo {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .locale-switch {
+    grid-column: 2;
+    grid-row: 1;
   }
   .section {
     padding-block: 3.5rem;
@@ -577,7 +599,11 @@ textarea {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .button {
+  .button,
+  .event-card,
+  .event-card .event-artwork,
+  .event-card .card-image,
+  .card-read-arrow {
     transform: none !important;
   }
   html {
@@ -682,6 +708,59 @@ textarea {
 .event-card {
   border: 0;
   padding: 0 0 2rem;
+  transition: transform 220ms ease;
+}
+.event-card h3 a {
+  transition: color 180ms ease;
+}
+.event-card .event-artwork,
+.event-card .card-image {
+  transition: transform 280ms ease;
+}
+.event-card .card-image-frame {
+  overflow: hidden;
+  margin-bottom: 1.4rem;
+}
+.event-card .card-image {
+  margin-bottom: 0;
+}
+.event-card .card-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+}
+.card-read-arrow {
+  display: inline-block;
+  transition: transform 220ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .event-card:hover {
+    transform: translateY(-3px);
+  }
+  .event-card:hover h3 a {
+    color: var(--cobalt);
+  }
+  .event-card:hover .event-artwork,
+  .event-card:hover .card-image {
+    transform: scale(1.035);
+  }
+  .event-card:hover .card-read-arrow {
+    transform: translate(3px, -3px);
+  }
+}
+.event-card:focus-within {
+  transform: translateY(-3px);
+}
+.event-card:focus-within .event-artwork,
+.event-card:focus-within .card-image {
+  transform: scale(1.035);
+}
+.event-card:focus-within h3 a {
+  color: var(--cobalt);
+}
+.event-card:focus-within .card-read-arrow {
+  transform: translate(3px, -3px);
 }
 .card-art-link {
   display: block;
@@ -798,7 +877,7 @@ textarea {
     padding-block: 2.5rem 4rem;
   }
   .hero-title {
-    font-size: clamp(2.6rem, 10.5vw, 4rem);
+    font-size: clamp(1.9rem, 9.4vw, 4rem);
     max-width: none;
   }
   .hero-art {

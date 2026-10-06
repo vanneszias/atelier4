@@ -149,20 +149,20 @@ if (content) {
             </a>
           ))}
           <a href={localizedPath(locale, "/search")}>{t.search}</a>
-          <div class="locale-switch" aria-label="Language / Taal">
-            {Object.entries(variants).map(([loc, path]) => (
-              <a
-                href={path}
-                lang={loc}
-                hreflang={loc}
-                aria-label={loc === "nl" ? "Nederlands" : "English"}
-                aria-current={loc === locale ? "page" : undefined}
-              >
-                {loc.toUpperCase()}
-              </a>
-            ))}
-          </div>
         </nav>
+        <div class="locale-switch" aria-label="Language / Taal">
+          {Object.entries(variants).map(([loc, path]) => (
+            <a
+              href={path}
+              lang={loc}
+              hreflang={loc}
+              aria-label={loc === "nl" ? "Nederlands" : "English"}
+              aria-current={loc === locale ? "page" : undefined}
+            >
+              {loc.toUpperCase()}
+            </a>
+          ))}
+        </div>
       </div>
     </header>
     <main id="main" tabindex="-1">
