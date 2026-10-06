@@ -13,7 +13,8 @@ export function createPlugin() {
       rate_limits: { indexes: ["expiresAt"] },
     },
     admin: {
-      entry: new URL("./admin.tsx", import.meta.url).pathname,
+      // The admin entry is resolved at build time in astro.config.mjs.
+      // Worker modules do not expose a filesystem URL at runtime.
       pages: [
         { path: "/submissions", label: "Community & forms", icon: "users" },
       ],

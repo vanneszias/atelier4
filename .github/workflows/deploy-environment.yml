@@ -50,6 +50,8 @@ jobs:
       - run: bun run build
       - name: Check generated deployment target
         run: node scripts/check-deployment.mjs
+      - name: Check production Worker startup
+        run: node scripts/check-worker.mjs
       - name: Verify branch has not advanced
         env:
           TARGET_ENV: ${{ inputs.environment }}
