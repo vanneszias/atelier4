@@ -10,7 +10,7 @@ on:
         type: string
     secrets:
       CLOUDFLARE_API_TOKEN:
-        required: true
+        required: false
 permissions:
   contents: read
 jobs:
@@ -24,6 +24,11 @@ jobs:
       CLOUDFLARE_ENV: ${{ inputs.environment }}
       CLOUDFLARE_ACCOUNT_ID: 6495d15c9d09b19ddc65f0a01892a183
     steps:
+      - name: Require deployment credential
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo '::error::Add CLOUDFLARE_API_TOKEN to this GitHub environment or repository Actions secrets.'; exit 1; }
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.commit }}
