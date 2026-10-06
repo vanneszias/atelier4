@@ -1,0 +1,14 @@
+---
+import { getEmDashEntry, decodeSlug } from "emdash";
+import ContentPage from "../../../components/ContentPage.astro";
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite("/en/404");
+const { entry, error, cacheHint } = await getEmDashEntry("posts", slug, {
+  locale: "en",
+});
+if (error) return new Response("Content unavailable", { status: 503 });
+if (!entry) return Astro.rewrite("/en/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<ContentPage entry={entry} collection="posts" />

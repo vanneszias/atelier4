@@ -1,234 +1,1658 @@
 {
-	"$schema": "https://emdashcms.com/seed.schema.json",
-	"version": "1",
-	"meta": {
-		"name": "Starter",
-		"description": "A minimal EmDash starter with posts and pages",
-		"author": "EmDash"
-	},
-	"settings": {
-		"title": "My Site",
-		"tagline": "Built with EmDash"
-	},
-	"collections": [
-		{
-			"slug": "posts",
-			"label": "Posts",
-			"labelSingular": "Post",
-			"urlPattern": "/posts/{slug}",
-			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
-			"fields": [
-				{
-					"slug": "title",
-					"label": "Title",
-					"type": "string",
-					"required": true,
-					"searchable": true
-				},
-				{
-					"slug": "featured_image",
-					"label": "Featured Image",
-					"type": "image"
-				},
-				{
-					"slug": "content",
-					"label": "Content",
-					"type": "portableText",
-					"searchable": true
-				},
-				{
-					"slug": "excerpt",
-					"label": "Excerpt",
-					"type": "text"
-				}
-			]
-		},
-		{
-			"slug": "pages",
-			"label": "Pages",
-			"labelSingular": "Page",
-			"urlPattern": "/{slug}",
-			"supports": ["drafts", "revisions", "preview", "search", "seo"],
-			"fields": [
-				{
-					"slug": "title",
-					"label": "Title",
-					"type": "string",
-					"required": true,
-					"searchable": true
-				},
-				{
-					"slug": "content",
-					"label": "Content",
-					"type": "portableText",
-					"searchable": true
-				}
-			]
-		}
-	],
-	"taxonomies": [
-		{
-			"name": "category",
-			"label": "Categories",
-			"labelSingular": "Category",
-			"hierarchical": true,
-			"collections": ["posts"],
-			"terms": [
-				{
-					"slug": "general",
-					"label": "General"
-				},
-				{
-					"slug": "updates",
-					"label": "Updates"
-				}
-			]
-		},
-		{
-			"name": "tag",
-			"label": "Tags",
-			"labelSingular": "Tag",
-			"hierarchical": false,
-			"collections": ["posts"],
-			"terms": [
-				{
-					"slug": "starter",
-					"label": "Starter"
-				},
-				{
-					"slug": "example",
-					"label": "Example"
-				}
-			]
-		}
-	],
-	"menus": [
-		{
-			"name": "primary",
-			"label": "Primary Navigation",
-			"items": [
-				{
-					"type": "custom",
-					"label": "Home",
-					"url": "/"
-				},
-				{
-					"type": "custom",
-					"label": "Posts",
-					"url": "/posts"
-				},
-				{
-					"type": "custom",
-					"label": "About",
-					"url": "/about"
-				}
-			]
-		}
-	],
-	"widgetAreas": [
-		{
-			"name": "sidebar",
-			"label": "Sidebar",
-			"description": "Sidebar widget area",
-			"widgets": [
-				{
-					"type": "component",
-					"componentId": "core:search",
-					"title": "Search"
-				},
-				{
-					"type": "component",
-					"componentId": "core:categories",
-					"title": "Categories"
-				},
-				{
-					"type": "component",
-					"componentId": "core:recent-posts",
-					"title": "Recent Posts",
-					"settings": {
-						"count": 5
-					}
-				}
-			]
-		}
-	],
-	"content": {
-		"pages": [
-			{
-				"id": "about",
-				"slug": "about",
-				"status": "published",
-				"data": {
-					"title": "About",
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "This is the about page. Edit it in the admin panel or replace this template with your own design.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						}
-					]
-				}
-			}
-		],
-		"posts": [
-			{
-				"id": "post-1",
-				"slug": "welcome",
-				"status": "published",
-				"data": {
-					"title": "Welcome",
-					"excerpt": "Your first post. Replace this with your own content.",
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "This is a starter post. The templates in this project show the basic patterns for querying and rendering EmDash content. Replace them with your own design.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						},
-						{
-							"_type": "block",
-							"style": "h2",
-							"children": [
-								{
-									"_type": "span",
-									"text": "What to do next",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Open the admin panel to add content, or edit the Astro pages in src/pages to change how content is displayed.",
-									"_key": "k5"
-								}
-							],
-							"_key": "k4"
-						}
-					]
-				},
-				"taxonomies": {
-					"category": ["general"],
-					"tag": ["starter", "example"]
-				}
-			}
-		]
-	}
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "nl",
+  "meta": {
+    "name": "Atelier 4",
+    "description": "Jezus, kunst en jonge mensen.",
+    "author": "Atelier 4"
+  },
+  "settings": {
+    "title": "Atelier 4",
+    "tagline": "Jezus × kunst × jij",
+    "timezone": "Europe/Brussels"
+  },
+  "blockTypes": [
+    {
+      "slug": "hero",
+      "label": "Hero",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "button_label",
+              "label": "Button label",
+              "type": "string"
+            },
+            {
+              "slug": "button_url",
+              "label": "Button URL",
+              "type": "string"
+            },
+            {
+              "slug": "secondary_label",
+              "label": "Second button label",
+              "type": "string"
+            },
+            {
+              "slug": "secondary_url",
+              "label": "Second button URL",
+              "type": "string"
+            },
+            {
+              "slug": "image",
+              "label": "Image",
+              "type": "image"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "statement",
+      "label": "Mission",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "button_label",
+              "label": "Button label",
+              "type": "string"
+            },
+            {
+              "slug": "button_url",
+              "label": "Button URL",
+              "type": "string"
+            },
+            {
+              "slug": "content",
+              "label": "Rich text",
+              "type": "portableText"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "features",
+      "label": "Art forms",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "items",
+              "label": "Items",
+              "type": "repeater",
+              "validation": {
+                "subFields": [
+                  {
+                    "slug": "heading",
+                    "label": "Title",
+                    "type": "string"
+                  },
+                  {
+                    "slug": "text",
+                    "label": "Description",
+                    "type": "text"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "events",
+      "label": "Events",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "limit",
+              "label": "Maximum events",
+              "type": "integer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "artists",
+      "label": "Artists",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "limit",
+              "label": "Maximum artists",
+              "type": "integer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "news",
+      "label": "Stories",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "limit",
+              "label": "Maximum stories",
+              "type": "integer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "gallery",
+      "label": "Gallery",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "items",
+              "label": "Items",
+              "type": "repeater",
+              "validation": {
+                "subFields": [
+                  {
+                    "slug": "image",
+                    "label": "Image",
+                    "type": "image",
+                    "required": true
+                  },
+                  {
+                    "slug": "caption",
+                    "label": "Caption",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "faq",
+      "label": "Questions",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "items",
+              "label": "Items",
+              "type": "repeater",
+              "validation": {
+                "subFields": [
+                  {
+                    "slug": "heading",
+                    "label": "Question",
+                    "type": "string"
+                  },
+                  {
+                    "slug": "text",
+                    "label": "Answer",
+                    "type": "text"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cta",
+      "label": "Call to action",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "button_label",
+              "label": "Button label",
+              "type": "string"
+            },
+            {
+              "slug": "button_url",
+              "label": "Button URL",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "form",
+      "label": "Form",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "anchor",
+              "label": "Section anchor",
+              "type": "string"
+            },
+            {
+              "slug": "eyebrow",
+              "label": "Small label",
+              "type": "string"
+            },
+            {
+              "slug": "heading",
+              "label": "Heading",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "text",
+              "label": "Introduction",
+              "type": "text"
+            },
+            {
+              "slug": "theme",
+              "label": "Colour",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "paper",
+                  "ink",
+                  "cobalt",
+                  "yellow",
+                  "orange",
+                  "raspberry"
+                ]
+              }
+            },
+            {
+              "slug": "form_type",
+              "label": "Form",
+              "type": "select",
+              "validation": {
+                "options": [
+                  "community",
+                  "newsletter",
+                  "artist",
+                  "contact",
+                  "registration"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "scheduling",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Summary",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        },
+        {
+          "slug": "layout",
+          "label": "Page sections",
+          "type": "blocks",
+          "validation": {
+            "allowedTypes": [
+              "hero",
+              "statement",
+              "features",
+              "events",
+              "artists",
+              "news",
+              "gallery",
+              "faq",
+              "cta",
+              "form"
+            ],
+            "maxItems": 40
+          }
+        }
+      ]
+    },
+    {
+      "slug": "events",
+      "label": "Events",
+      "labelSingular": "Event",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "scheduling",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Summary",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        },
+        {
+          "slug": "event_state",
+          "label": "Event state",
+          "type": "select",
+          "validation": {
+            "options": ["preparation", "announced", "open", "sold_out", "past"]
+          }
+        },
+        {
+          "slug": "starts_at",
+          "label": "Start",
+          "type": "datetime",
+          "translatable": false
+        },
+        {
+          "slug": "ends_at",
+          "label": "End",
+          "type": "datetime",
+          "translatable": false
+        },
+        {
+          "slug": "location",
+          "label": "Location",
+          "type": "string"
+        },
+        {
+          "slug": "registration_open",
+          "label": "Accept registrations",
+          "type": "boolean",
+          "translatable": false
+        },
+        {
+          "slug": "registration_url",
+          "label": "External ticket URL",
+          "type": "url",
+          "translatable": false
+        },
+        {
+          "slug": "capacity",
+          "label": "Capacity",
+          "type": "integer",
+          "translatable": false
+        }
+      ]
+    },
+    {
+      "slug": "artists",
+      "label": "Artists",
+      "labelSingular": "Artist",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "scheduling",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Summary",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        },
+        {
+          "slug": "discipline",
+          "label": "Discipline",
+          "type": "string"
+        },
+        {
+          "slug": "website",
+          "label": "Website",
+          "type": "url"
+        }
+      ]
+    },
+    {
+      "slug": "posts",
+      "label": "Stories",
+      "labelSingular": "Story",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "scheduling",
+        "search",
+        "seo"
+      ],
+      "commentsEnabled": true,
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Summary",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        }
+      ]
+    },
+    {
+      "slug": "galleries",
+      "label": "Galleries",
+      "labelSingular": "Gallery",
+      "supports": [
+        "drafts",
+        "revisions",
+        "preview",
+        "scheduling",
+        "search",
+        "seo"
+      ],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "excerpt",
+          "label": "Summary",
+          "type": "text",
+          "searchable": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Featured image",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Content",
+          "type": "portableText",
+          "searchable": true
+        },
+        {
+          "slug": "images",
+          "label": "Images",
+          "type": "repeater",
+          "validation": {
+            "subFields": [
+              {
+                "slug": "image",
+                "label": "Image",
+                "type": "image",
+                "required": true
+              },
+              {
+                "slug": "caption",
+                "label": "Caption",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "content": {
+    "pages": [
+      {
+        "id": "home",
+        "slug": "home",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Atelier 4",
+          "excerpt": "Een nieuwe plek voor jonge mensen die Jezus en kunst samen willen ontdekken. Vanuit Kunstenkamp, met ruimte voor jouw ideeën.",
+          "layout": [
+            {
+              "_type": "hero",
+              "_version": 1,
+              "_key": "hero",
+              "anchor": "intro",
+              "theme": "paper",
+              "eyebrow": "Jezus × kunst × jij",
+              "heading": "Geloof.\nKunst.\nSamen.",
+              "text": "Een nieuwe plek voor jonge mensen die Jezus en kunst samen willen ontdekken. Vanuit Kunstenkamp, met ruimte voor jouw ideeën.",
+              "button_label": "Ontdek de plannen",
+              "button_url": "#events",
+              "secondary_label": "Doe mee",
+              "secondary_url": "#community"
+            },
+            {
+              "_type": "statement",
+              "_version": 1,
+              "_key": "mission",
+              "anchor": "over",
+              "theme": "cobalt",
+              "eyebrow": "Dit is Atelier 4",
+              "heading": "Ruimte om\nte creëren.",
+              "text": "Kunst kan verbinden, vragen stellen en ons geloof een stem geven. Met Atelier 4 willen we kunstavonden en ontmoetingen organiseren voor jonge christenen. Een plek om samen te maken, te ontdekken en God te eren."
+            },
+            {
+              "_type": "features",
+              "_version": 1,
+              "_key": "disciplines",
+              "anchor": "kunst",
+              "theme": "paper",
+              "eyebrow": "Er is plek voor jou",
+              "heading": "Wat maak jij?",
+              "items": [
+                {
+                  "heading": "Muziek",
+                  "text": "Van kamplied tot een nieuw geluid. Samen spelen, zingen en luisteren."
+                },
+                {
+                  "heading": "Beeld",
+                  "text": "Schilderkunst, fotografie, installaties. Geef jouw ideeën een vorm."
+                },
+                {
+                  "heading": "Woord & beweging",
+                  "text": "Poëzie, verhalen, theater en dans. Vertel wat je raakt."
+                }
+              ]
+            },
+            {
+              "_type": "events",
+              "_version": 1,
+              "_key": "events",
+              "anchor": "events",
+              "theme": "yellow",
+              "eyebrow": "De eerste ideeën",
+              "heading": "Er komt\niets aan.",
+              "text": "We bouwen aan onze eerste events. Alles is nog in voorbereiding: data, locaties en inschrijvingen volgen.",
+              "limit": 6
+            },
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "community",
+              "anchor": "community",
+              "theme": "orange",
+              "eyebrow": "Bouw mee",
+              "heading": "Jouw plek\naan tafel.",
+              "text": "Of je nu muziek maakt, tekent, danst, schrijft of graag praktisch helpt: we leren je graag kennen. Laat weten waar jij enthousiast van wordt.",
+              "form_type": "community"
+            },
+            {
+              "_type": "faq",
+              "_version": 1,
+              "_key": "faq",
+              "anchor": "vragen",
+              "theme": "paper",
+              "heading": "Nog een vraag?",
+              "items": [
+                {
+                  "heading": "Moet ik al kunstenaar zijn?",
+                  "text": "Nee. Je enthousiasme en nieuwsgierigheid zijn genoeg. Er is ruimte om te leren en samen te ontdekken."
+                },
+                {
+                  "heading": "Wat is de link met Kunstenkamp?",
+                  "text": "Atelier 4 groeit vanuit de Kunstenkamp-community. We willen die verbinding en creativiteit ook doorheen het jaar verder laten leven."
+                },
+                {
+                  "heading": "Wanneer is het eerste event?",
+                  "text": "We zijn nog volop aan het plannen. Laat je gegevens achter en geef aan dat je updates wilt ontvangen."
+                }
+              ]
+            }
+          ],
+          "content": []
+        }
+      },
+      {
+        "id": "join",
+        "slug": "join",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Doe mee",
+          "excerpt": "Of je nu muziek maakt, tekent, danst, schrijft of graag praktisch helpt: we leren je graag kennen. Laat weten waar jij enthousiast van wordt.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "join",
+              "heading": "Doe mee",
+              "text": "Of je nu muziek maakt, tekent, danst, schrijft of graag praktisch helpt: we leren je graag kennen. Laat weten waar jij enthousiast van wordt.",
+              "theme": "paper",
+              "form_type": "community"
+            }
+          ]
+        }
+      },
+      {
+        "id": "newsletter",
+        "slug": "newsletter",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Blijf op de hoogte",
+          "excerpt": "Ontvang nieuws wanneer er iets te vertellen is.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "newsletter",
+              "heading": "Blijf op de hoogte",
+              "text": "Ontvang nieuws wanneer er iets te vertellen is.",
+              "theme": "paper",
+              "form_type": "newsletter"
+            }
+          ]
+        }
+      },
+      {
+        "id": "artist-application",
+        "slug": "artist-application",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Stel jezelf voor",
+          "excerpt": "Vertel ons over jouw kunst en hoe je wilt meedoen.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "artist-application",
+              "heading": "Stel jezelf voor",
+              "text": "Vertel ons over jouw kunst en hoe je wilt meedoen.",
+              "theme": "paper",
+              "form_type": "artist"
+            }
+          ]
+        }
+      },
+      {
+        "id": "contact",
+        "slug": "contact",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Contact",
+          "excerpt": "Een vraag of idee? Laat het ons weten.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "contact",
+              "heading": "Contact",
+              "text": "Een vraag of idee? Laat het ons weten.",
+              "theme": "paper",
+              "form_type": "contact"
+            }
+          ]
+        }
+      },
+      {
+        "id": "register",
+        "slug": "register",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Inschrijven",
+          "excerpt": "Schrijf je in zodra een event openstaat.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "register",
+              "heading": "Inschrijven",
+              "text": "Schrijf je in zodra een event openstaat.",
+              "theme": "paper",
+              "form_type": "registration"
+            }
+          ]
+        }
+      },
+      {
+        "id": "privacy",
+        "slug": "privacy",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Privacy",
+          "excerpt": "Jouw gegevens",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "paragraph",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "span",
+                  "text": "We gebruiken je naam, e-mailadres en eventuele kunstvorm of bericht alleen om jouw aanvraag te behandelen. Als je apart kiest voor updates, gebruiken we je e-mailadres ook voor Atelier 4-nieuws. Je aanvraag en artistieke profiel worden niet automatisch openbaar. Je kunt inzage, correctie of verwijdering vragen via contact@ateliervier.be. Website en gegevens worden verwerkt via Cloudflare. Alleen met je toestemming gebruiken we OpenPanel voor bezoekersstatistieken; formuliergegevens worden niet met analytics gedeeld. We bewaren aanvragen tot ze zijn afgehandeld, maximaal 12 maanden; gegevens voor updates tot je je uitschrijft. Functionele sessiecookies beveiligen het CMS. Atelier 4 is nog in opbouw; voor vragen over deze verwerking kun je ons contacteren.",
+                  "marks": []
+                }
+              ]
+            }
+          ],
+          "layout": []
+        }
+      },
+      {
+        "id": "home-en",
+        "slug": "home",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Atelier 4",
+          "excerpt": "A new place for young people to explore Jesus and art together. Growing out of Kunstenkamp, with room for your ideas.",
+          "layout": [
+            {
+              "_type": "hero",
+              "_version": 1,
+              "_key": "hero",
+              "anchor": "intro",
+              "theme": "paper",
+              "eyebrow": "Jesus × art × you",
+              "heading": "Faith.\nArt.\nTogether.",
+              "text": "A new place for young people to explore Jesus and art together. Growing out of Kunstenkamp, with room for your ideas.",
+              "button_label": "Discover our plans",
+              "button_url": "#events",
+              "secondary_label": "Join in",
+              "secondary_url": "#community"
+            },
+            {
+              "_type": "statement",
+              "_version": 1,
+              "_key": "mission",
+              "anchor": "over",
+              "theme": "cobalt",
+              "eyebrow": "This is Atelier 4",
+              "heading": "Room to\ncreate.",
+              "text": "Art can connect us, ask questions and give our faith a voice. At Atelier 4, we want to bring young Christians together through art nights and creative encounters. A place to make, discover and honour God together."
+            },
+            {
+              "_type": "features",
+              "_version": 1,
+              "_key": "disciplines",
+              "anchor": "kunst",
+              "theme": "paper",
+              "eyebrow": "There is room for you",
+              "heading": "What do you make?",
+              "items": [
+                {
+                  "heading": "Music",
+                  "text": "From a camp song to a new sound. Play, sing and listen together."
+                },
+                {
+                  "heading": "Visual art",
+                  "text": "Painting, photography, installations. Give your ideas a shape."
+                },
+                {
+                  "heading": "Words & movement",
+                  "text": "Poetry, stories, theatre and dance. Share what moves you."
+                }
+              ]
+            },
+            {
+              "_type": "events",
+              "_version": 1,
+              "_key": "events",
+              "anchor": "events",
+              "theme": "yellow",
+              "eyebrow": "Our first ideas",
+              "heading": "Something\nis coming.",
+              "text": "We are shaping our first events. Everything is still in preparation: dates, venues and registration will follow.",
+              "limit": 6
+            },
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "community",
+              "anchor": "community",
+              "theme": "orange",
+              "eyebrow": "Help shape it",
+              "heading": "Your place\nat the table.",
+              "text": "Whether you make music, draw, dance, write or enjoy helping behind the scenes: we would love to meet you. Tell us what excites you.",
+              "form_type": "community"
+            },
+            {
+              "_type": "faq",
+              "_version": 1,
+              "_key": "faq",
+              "anchor": "vragen",
+              "theme": "paper",
+              "heading": "A question?",
+              "items": [
+                {
+                  "heading": "Do I need to be an artist already?",
+                  "text": "No. Enthusiasm and curiosity are enough. There is room to learn and explore together."
+                },
+                {
+                  "heading": "How is this connected to Kunstenkamp?",
+                  "text": "Atelier 4 is growing out of the Kunstenkamp community. We want that connection and creativity to keep going throughout the year."
+                },
+                {
+                  "heading": "When is the first event?",
+                  "text": "We are still planning. Leave your details and tell us you would like to receive updates."
+                }
+              ]
+            }
+          ],
+          "content": []
+        },
+        "translationOf": "home"
+      },
+      {
+        "id": "join-en",
+        "slug": "join",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Join in",
+          "excerpt": "Whether you make music, draw, dance, write or enjoy helping behind the scenes: we would love to meet you. Tell us what excites you.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "join",
+              "heading": "Join in",
+              "text": "Whether you make music, draw, dance, write or enjoy helping behind the scenes: we would love to meet you. Tell us what excites you.",
+              "theme": "paper",
+              "form_type": "community"
+            }
+          ]
+        },
+        "translationOf": "join"
+      },
+      {
+        "id": "newsletter-en",
+        "slug": "newsletter",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Stay in the loop",
+          "excerpt": "Receive news when there is something to share.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "newsletter",
+              "heading": "Stay in the loop",
+              "text": "Receive news when there is something to share.",
+              "theme": "paper",
+              "form_type": "newsletter"
+            }
+          ]
+        },
+        "translationOf": "newsletter"
+      },
+      {
+        "id": "artist-application-en",
+        "slug": "artist-application",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Introduce yourself",
+          "excerpt": "Tell us about your art and how you would like to get involved.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "artist-application",
+              "heading": "Introduce yourself",
+              "text": "Tell us about your art and how you would like to get involved.",
+              "theme": "paper",
+              "form_type": "artist"
+            }
+          ]
+        },
+        "translationOf": "artist-application"
+      },
+      {
+        "id": "contact-en",
+        "slug": "contact",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Contact",
+          "excerpt": "A question or an idea? Let us know.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "contact",
+              "heading": "Contact",
+              "text": "A question or an idea? Let us know.",
+              "theme": "paper",
+              "form_type": "contact"
+            }
+          ]
+        },
+        "translationOf": "contact"
+      },
+      {
+        "id": "register-en",
+        "slug": "register",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Register",
+          "excerpt": "Register when an event opens.",
+          "layout": [
+            {
+              "_type": "form",
+              "_version": 1,
+              "_key": "register",
+              "heading": "Register",
+              "text": "Register when an event opens.",
+              "theme": "paper",
+              "form_type": "registration"
+            }
+          ]
+        },
+        "translationOf": "register"
+      },
+      {
+        "id": "privacy-en",
+        "slug": "privacy",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Privacy",
+          "excerpt": "Your details",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "paragraph",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "span",
+                  "text": "We use your name, email address and any art form or message only to handle your request. If you separately choose updates, we also use your email for Atelier 4 news. Your application and artist profile are not automatically made public. You can request access, correction or deletion at contact@ateliervier.be. The website and data are processed through Cloudflare. We use OpenPanel visitor statistics only with your consent; form details are not shared with analytics. We retain requests until handled, for at most 12 months, and update subscriptions until you unsubscribe. Functional session cookies protect the CMS. Atelier 4 is still taking shape; contact us with questions about this processing.",
+                  "marks": []
+                }
+              ]
+            }
+          ],
+          "layout": []
+        },
+        "translationOf": "privacy"
+      }
+    ],
+    "events": [
+      {
+        "id": "songs",
+        "slug": "kunstenkamp-liederenavond",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Kunstenkamp-liederenavond",
+          "excerpt": "Kampliederen van de voorbije ±30 jaar, opnieuw live gebracht door meerdere bands en muzikanten. We willen ook de oorspronkelijke liedschrijvers erbij betrekken.",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "paragraph",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "span",
+                  "text": "Kampliederen van de voorbije ±30 jaar, opnieuw live gebracht door meerdere bands en muzikanten. We willen ook de oorspronkelijke liedschrijvers erbij betrekken.",
+                  "marks": []
+                }
+              ]
+            }
+          ],
+          "event_state": "preparation",
+          "registration_open": false
+        }
+      },
+      {
+        "id": "aoff",
+        "slug": "aoff",
+        "locale": "nl",
+        "status": "published",
+        "data": {
+          "title": "Samen creëren op AOFF",
+          "excerpt": "We onderzoeken een samenwerking met AOFF: een kunstinstallatie in het klooster en mogelijke bijdragen met woord, dans of een workshop. De precieze vorm ligt nog open.",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "paragraph",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "span",
+                  "text": "We onderzoeken een samenwerking met AOFF: een kunstinstallatie in het klooster en mogelijke bijdragen met woord, dans of een workshop. De precieze vorm ligt nog open.",
+                  "marks": []
+                }
+              ]
+            }
+          ],
+          "event_state": "preparation",
+          "registration_open": false
+        }
+      },
+      {
+        "id": "songs-en",
+        "slug": "kunstenkamp-liederenavond",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "An evening of Kunstenkamp songs",
+          "excerpt": "Songs from around 30 years of Kunstenkamp, brought back to life by bands and musicians. We also hope to involve the original songwriters.",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "paragraph",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "span",
+                  "text": "Songs from around 30 years of Kunstenkamp, brought back to life by bands and musicians. We also hope to involve the original songwriters.",
+                  "marks": []
+                }
+              ]
+            }
+          ],
+          "event_state": "preparation",
+          "registration_open": false
+        },
+        "translationOf": "songs"
+      },
+      {
+        "id": "aoff-en",
+        "slug": "aoff",
+        "locale": "en",
+        "status": "published",
+        "data": {
+          "title": "Creating together at AOFF",
+          "excerpt": "We are exploring a collaboration with AOFF: an art installation in the monastery and possible contributions through words, dance or a workshop. The exact shape is still open.",
+          "content": [
+            {
+              "_type": "block",
+              "_key": "paragraph",
+              "style": "normal",
+              "markDefs": [],
+              "children": [
+                {
+                  "_type": "span",
+                  "_key": "span",
+                  "text": "We are exploring a collaboration with AOFF: an art installation in the monastery and possible contributions through words, dance or a workshop. The exact shape is still open.",
+                  "marks": []
+                }
+              ]
+            }
+          ],
+          "event_state": "preparation",
+          "registration_open": false
+        },
+        "translationOf": "aoff"
+      }
+    ],
+    "artists": [],
+    "posts": [],
+    "galleries": []
+  },
+  "menus": [
+    {
+      "name": "primary_nl",
+      "label": "Primary NL",
+      "locale": "nl",
+      "items": [
+        {
+          "type": "custom",
+          "label": "Over ons",
+          "url": "/#over"
+        },
+        {
+          "type": "custom",
+          "label": "Events",
+          "url": "/events"
+        },
+        {
+          "type": "custom",
+          "label": "Community",
+          "url": "/join"
+        }
+      ]
+    },
+    {
+      "name": "primary_en",
+      "label": "Primary EN",
+      "locale": "en",
+      "items": [
+        {
+          "type": "custom",
+          "label": "About",
+          "url": "/en/#over"
+        },
+        {
+          "type": "custom",
+          "label": "Events",
+          "url": "/en/events"
+        },
+        {
+          "type": "custom",
+          "label": "Community",
+          "url": "/en/join"
+        }
+      ]
+    }
+  ],
+  "widgetAreas": [
+    {
+      "name": "footer_nl",
+      "label": "Footer NL",
+      "widgets": []
+    },
+    {
+      "name": "footer_en",
+      "label": "Footer EN",
+      "widgets": []
+    },
+    {
+      "name": "sidebar",
+      "label": "Story sidebar",
+      "widgets": []
+    }
+  ],
+  "sections": [
+    {
+      "slug": "join-in",
+      "title": "Doe mee",
+      "description": "Herbruikbare uitnodiging",
+      "keywords": ["community"],
+      "source": "theme",
+      "content": [
+        {
+          "_type": "block",
+          "_key": "paragraph",
+          "style": "normal",
+          "markDefs": [],
+          "children": [
+            {
+              "_type": "span",
+              "_key": "span",
+              "text": "Er is plek voor jou in Atelier 4.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "taxonomies": [
+    {
+      "name": "discipline",
+      "label": "Art forms",
+      "labelSingular": "Art form",
+      "hierarchical": false,
+      "collections": ["events", "artists", "posts", "galleries"],
+      "terms": [
+        {
+          "slug": "music",
+          "label": "Music"
+        },
+        {
+          "slug": "visual_art",
+          "label": "Visual_Art"
+        },
+        {
+          "slug": "dance",
+          "label": "Dance"
+        },
+        {
+          "slug": "word",
+          "label": "Word"
+        }
+      ]
+    },
+    {
+      "name": "category",
+      "label": "Categories",
+      "labelSingular": "Category",
+      "hierarchical": true,
+      "collections": ["posts"],
+      "terms": []
+    },
+    {
+      "name": "tag",
+      "label": "Tags",
+      "labelSingular": "Tag",
+      "hierarchical": false,
+      "collections": ["posts"],
+      "terms": []
+    }
+  ]
 }

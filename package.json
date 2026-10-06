@@ -4,24 +4,32 @@
   "private": true,
   "type": "module",
   "emdash": {
-    "label": "Starter",
+    "label": "Atelier 4",
     "seed": "seed/seed.json"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && wrangler deploy",
-    "typecheck": "astro check"
+    "deploy": "node -e \"console.error('Choose deploy:staging or deploy:live explicitly.'); process.exit(1)\"",
+    "typecheck": "astro check",
+    "test": "bun test tests",
+    "deploy:staging": "CLOUDFLARE_ENV=staging bun run build && CLOUDFLARE_ENV=staging bunx wrangler deploy --env staging",
+    "deploy:live": "CLOUDFLARE_ENV=live bun run build && CLOUDFLARE_ENV=live bunx wrangler deploy --env live",
+    "pull:live": "node scripts/pull-live.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",
     "@astrojs/react": "^6.0.5",
+    "@cloudflare/kumo": "2.6.0",
     "@emdash-cms/cloudflare": "^1.0.1",
+    "@fontsource/jost": "5.2.8",
+    "@openpanel/web": "^1.4.1",
     "astro": "^7.3.2",
     "emdash": "^1.0.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zod": "4.5.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

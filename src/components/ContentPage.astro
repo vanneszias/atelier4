@@ -1,0 +1,127 @@
+---
+import { getSeoMeta } from "emdash";
+import { Image, PortableText, WidgetArea } from "emdash/ui";
+import { Comments, CommentForm } from "emdash/ui/comments";
+import Base from "../layouts/Base.astro";
+import PageSections from "./PageSections.astro";
+import Gallery from "./blocks/Gallery.astro";
+import { localeFromPath, localizedPath, messages, safeUrl } from "../i18n";
+interface Props {
+  entry: any;
+  collection: string;
+}
+const { entry, collection } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname),
+  t = messages[locale];
+const seo = getSeoMeta(entry, {
+  siteTitle: "Atelier 4",
+  siteUrl: Astro.url.origin,
+  path: Astro.url.pathname,
+  defaultDescription: entry.data.excerpt,
+});
+const blocks = entry.data.layout || [];
+---
+
+<Base
+  title={seo.title}
+  description={seo.description}
+  canonical={seo.canonical}
+  image={seo.ogImage}
+  content={{ collection, id: entry.data.id, slug: entry.id }}
+>
+  {blocks[0]?._type !== "hero" && (
+    <div class="container article">
+      <span class="eyebrow">Atelier 4</span>
+      <h1 {...entry.edit.title}>{entry.data.title}</h1>
+      {!blocks.length && <p {...entry.edit.excerpt}>{entry.data.excerpt}</p>}
+      {entry.data.featured_image && (
+        <div {...entry.edit.featured_image}>
+          <Image image={entry.data.featured_image} />
+        </div>
+      )}
+    </div>
+  )}
+  {blocks.length > 0 && (
+    <div {...entry.edit.layout}>
+      <PageSections value={blocks} />
+    </div>
+  )}
+  {entry.data.content?.length > 0 && (
+    <article class="container article">
+      <div class="prose" {...entry.edit.content}>
+        <PortableText value={entry.data.content} />
+      </div>
+      {collection === "events" && (
+        <>
+          <p>
+            <span class="badge">
+              {entry.data.event_state === "preparation"
+                ? t.preparing
+                : t.events}
+            </span>
+          </p>
+          <p>
+            {entry.data.starts_at
+              ? new Intl.DateTimeFormat(locale, {
+                  dateStyle: "full",
+                  timeStyle: "short",
+                  timeZone: "Europe/Brussels",
+                }).format(new Date(entry.data.starts_at))
+              : t.dateSoon}
+          </p>
+          {entry.data.location && <p>{entry.data.location}</p>}
+          {entry.data.registration_open && entry.data.event_state === "open" ? (
+            <a
+              class="button"
+              href={
+                entry.data.registration_url
+                  ? safeUrl(entry.data.registration_url)
+                  : entry.data.capacity
+                    ? localizedPath(locale, "/contact")
+                    : localizedPath(locale, `/register?event=${entry.data.id}`)
+              }
+            >
+              {entry.data.capacity && !entry.data.registration_url
+                ? t.contact
+                : t.registration}
+            </a>
+          ) : (
+            <p>{t.unavailable}</p>
+          )}
+        </>
+      )}
+      {entry.data.website && (
+        <a href={safeUrl(entry.data.website)}>{entry.data.website}</a>
+      )}
+      {entry.data.bylines?.length > 0 && (
+        <p class="credits">
+          {entry.data.bylines
+            .map(
+              (credit: any) =>
+                credit.byline.displayName +
+                (credit.roleLabel ? ` (${credit.roleLabel})` : ""),
+            )
+            .join(", ")}
+        </p>
+      )}
+      {collection === "posts" && (
+        <>
+          <Comments collection="posts" contentId={entry.data.id} threaded />
+          <CommentForm collection="posts" contentId={entry.data.id} />
+          <WidgetArea name="sidebar" />
+        </>
+      )}
+    </article>
+  )}
+  {entry.data.images?.length > 0 && (
+    <Gallery
+      value={{
+        _type: "gallery",
+        _version: 1,
+        _key: "gallery",
+        heading: t.gallery,
+        items: entry.data.images,
+      }}
+    />
+  )}
+</Base>

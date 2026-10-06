@@ -1,0 +1,73 @@
+---
+import { search } from "emdash";
+import Base from "../../layouts/Base.astro";
+import { messages, localizedPath } from "../../i18n";
+const locale = "en",
+  t = messages[locale];
+const q = (Astro.url.searchParams.get("q") || "").trim().slice(0, 200);
+const results = q
+  ? await search(q, {
+      collections: ["pages", "posts", "events", "artists", "galleries"],
+      status: "published",
+      locale,
+      limit: 20,
+      cursor: Astro.url.searchParams.get("cursor") || undefined,
+    })
+  : null;
+const resultPath = (item: any) =>
+  localizedPath(
+    locale,
+    item.collection === "pages"
+      ? item.slug === "home"
+        ? "/"
+        : `/${item.slug}`
+      : `/${item.collection === "posts" ? "stories" : item.collection}/${item.slug}`,
+  );
+---
+
+<Base title={t.search}>
+  <section class="container article">
+    <h1>{t.search}</h1>
+    <form role="search">
+      <label class="form-field">
+        <span>{t.query}</span>
+        <input
+          type="search"
+          name="q"
+          value={q}
+          maxlength="200"
+          placeholder={t.searchHint}
+        />
+      </label>
+      <button class="button">{t.search}</button>
+    </form>
+    {q && (
+      <div aria-live="polite">
+        {results?.items.length ? (
+          results.items.map((item) => (
+            <article class="card">
+              <h2 style="font-size:1.7rem">
+                <a href={resultPath(item)}>{item.title}</a>
+              </h2>
+              <p>{(item.snippet || "").replace(/<[^>]*>/g, "")}</p>
+            </article>
+          ))
+        ) : (
+          <p>{t.noResults}</p>
+        )}
+      </div>
+    )}
+    {results?.nextCursor && (
+      <a
+        href={
+          "?q=" +
+          encodeURIComponent(q) +
+          "&cursor=" +
+          encodeURIComponent(results.nextCursor)
+        }
+      >
+        {t.next}
+      </a>
+    )}
+  </section>
+</Base>

@@ -1,0 +1,90 @@
+name: Release
+run-name: Release ${{ inputs.tag }}
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Version tag, for example v1.0.0"
+        required: true
+        type: string
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: atelier4-release
+  cancel-in-progress: false
+jobs:
+  promote:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    outputs:
+      commit: ${{ steps.promote.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.2"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Validate release tag
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]] || { echo 'Use a semantic version tag.'; exit 1; }
+      - run: bun install --frozen-lockfile
+      - run: bun run test
+      - run: bun run typecheck
+      - run: bun run build
+        env:
+          CLOUDFLARE_ENV: live
+      - name: Require successful staging deployment for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          source_commit=$(git rev-parse HEAD)
+          staged=$(gh api "repos/$GH_REPO/actions/workflows/deploy.yml/runs?branch=develop&head_sha=$source_commit&status=success" --jq '.workflow_runs | length')
+          test "$staged" -gt 0 || { echo 'This develop commit has not successfully deployed to staging.'; exit 1; }
+      - name: Promote exact commit and create immutable tag
+        id: promote
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: |
+          git fetch origin master develop --tags
+          source_commit=$(git rev-parse HEAD)
+          test "$source_commit" = "$(git rev-parse origin/develop)" || { echo 'Develop advanced; start a new release.'; exit 1; }
+          git merge-base --is-ancestor origin/master "$source_commit" || { echo 'Merge master hotfixes into develop first.'; exit 1; }
+          if git rev-parse "refs/tags/$RELEASE_TAG" >/dev/null 2>&1; then
+            test "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")" = "$source_commit" || { echo 'Tag already identifies another commit.'; exit 1; }
+          else
+            git tag "$RELEASE_TAG" "$source_commit"
+          fi
+          git push --atomic origin "$source_commit:refs/heads/master" "refs/tags/$RELEASE_TAG"
+          echo "commit=$source_commit" >> "$GITHUB_OUTPUT"
+  deploy-live:
+    needs: promote
+    uses: ./.github/workflows/deploy-environment.yml
+    with:
+      environment: live
+      commit: ${{ needs.promote.outputs.commit }}
+    secrets: inherit
+  github-release:
+    needs: [promote, deploy-live]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish GitHub release after successful live deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          SOURCE_COMMIT: ${{ needs.promote.outputs.commit }}
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            echo 'Release already exists; leaving it unchanged.'
+          else
+            gh release create "$RELEASE_TAG" --verify-tag --target "$SOURCE_COMMIT" --title "$RELEASE_TAG" --generate-notes
+          fi

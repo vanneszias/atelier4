@@ -1,0 +1,35 @@
+---
+import { Blocks, defineBlockComponents } from "emdash/ui";
+import type { SectionBlock } from "../lib/blocks";
+import Hero from "./blocks/Hero.astro";
+import Statement from "./blocks/Statement.astro";
+import Features from "./blocks/Features.astro";
+import Collection from "./blocks/Collection.astro";
+import Gallery from "./blocks/Gallery.astro";
+import Faq from "./blocks/Faq.astro";
+import Cta from "./blocks/Cta.astro";
+import FormSection from "./blocks/FormSection.astro";
+interface Props {
+  value: SectionBlock[];
+}
+const components = defineBlockComponents<SectionBlock>({
+  hero: Hero,
+  statement: Statement,
+  features: Features,
+  events: Collection,
+  artists: Collection,
+  news: Collection,
+  gallery: Gallery,
+  faq: Faq,
+  cta: Cta,
+  form: FormSection,
+});
+---
+
+<Blocks
+  value={Astro.props.value.map((block, index) => ({
+    ...block,
+    _heading: (index === 0 ? 1 : 2) as 1 | 2,
+  }))}
+  components={components}
+/>

@@ -1,0 +1,66 @@
+name: Deploy environment
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      commit:
+        required: true
+        type: string
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    concurrency:
+      group: atelier4-deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_ENV: ${{ inputs.environment }}
+      CLOUDFLARE_ACCOUNT_ID: 6495d15c9d09b19ddc65f0a01892a183
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit }}
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.2"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Validate target
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+        run: |
+          case "$TARGET_ENV" in staging|live) ;; *) exit 1 ;; esac
+      - run: bun install --frozen-lockfile
+      - run: bun run test
+      - run: bun run typecheck
+      - run: bun run build
+      - name: Check generated deployment target
+        run: node scripts/check-deployment.mjs
+      - name: Verify branch has not advanced
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          EXPECTED_COMMIT: ${{ inputs.commit }}
+        run: |
+          if [ "$TARGET_ENV" = staging ]; then target_branch=develop; else target_branch=master; fi
+          actual_commit=$(git ls-remote origin "refs/heads/$target_branch" | cut -f1)
+          test "$actual_commit" = "$EXPECTED_COMMIT" || { echo 'Branch has advanced; refusing stale deployment.'; exit 1; }
+      - name: Deploy Worker
+        run: bunx wrangler deploy --env "$CLOUDFLARE_ENV"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Deployment summary
+        env:
+          TARGET_ENV: ${{ inputs.environment }}
+          SOURCE_COMMIT: ${{ inputs.commit }}
+        run: |
+          echo "Deployed $SOURCE_COMMIT to $TARGET_ENV" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$TARGET_ENV" = staging ]; then echo 'https://staging.ateliervier.be (Cloudflare Access)' >> "$GITHUB_STEP_SUMMARY"; else echo 'https://ateliervier.be' >> "$GITHUB_STEP_SUMMARY"; fi

@@ -1,0 +1,14 @@
+name: Deploy
+on:
+  push:
+    branches: [develop, master]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-environment.yml
+    with:
+      environment: ${{ github.ref_name == 'develop' && 'staging' || 'live' }}
+      commit: ${{ github.sha }}
+    secrets: inherit

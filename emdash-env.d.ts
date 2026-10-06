@@ -5,12 +5,222 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
+export interface Artist {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  excerpt?: string;
+  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  content?: PortableTextBlock[];
+  discipline?: string;
+  website?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface Event {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  excerpt?: string;
+  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  content?: PortableTextBlock[];
+  event_state?: "preparation" | "announced" | "open" | "sold_out" | "past";
+  starts_at?: string;
+  ends_at?: string;
+  location?: string;
+  registration_open?: boolean;
+  registration_url?: string;
+  capacity?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface Gallery {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  excerpt?: string;
+  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  content?: PortableTextBlock[];
+  images?: { "image": { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } }; "caption"?: string | null }[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface PageLayoutHeroV1Block {
+  _type: "hero";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "button_label"?: string | null;
+  "button_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageLayoutHeroBlock = PageLayoutHeroV1Block;
+
+export interface PageLayoutStatementV1Block {
+  _type: "statement";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "button_label"?: string | null;
+  "button_url"?: string | null;
+  "content"?: PortableTextBlock[] | null;
+}
+
+export type PageLayoutStatementBlock = PageLayoutStatementV1Block;
+
+export interface PageLayoutFeaturesV1Block {
+  _type: "features";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "items"?: { "heading"?: string | null; "text"?: string | null }[] | null;
+}
+
+export type PageLayoutFeaturesBlock = PageLayoutFeaturesV1Block;
+
+export interface PageLayoutEventsV1Block {
+  _type: "events";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "limit"?: number | null;
+}
+
+export type PageLayoutEventsBlock = PageLayoutEventsV1Block;
+
+export interface PageLayoutArtistsV1Block {
+  _type: "artists";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "limit"?: number | null;
+}
+
+export type PageLayoutArtistsBlock = PageLayoutArtistsV1Block;
+
+export interface PageLayoutNewsV1Block {
+  _type: "news";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "limit"?: number | null;
+}
+
+export type PageLayoutNewsBlock = PageLayoutNewsV1Block;
+
+export interface PageLayoutGalleryV1Block {
+  _type: "gallery";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "items"?: { "image": { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } }; "caption"?: string | null }[] | null;
+}
+
+export type PageLayoutGalleryBlock = PageLayoutGalleryV1Block;
+
+export interface PageLayoutFaqV1Block {
+  _type: "faq";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "items"?: { "heading"?: string | null; "text"?: string | null }[] | null;
+}
+
+export type PageLayoutFaqBlock = PageLayoutFaqV1Block;
+
+export interface PageLayoutCtaV1Block {
+  _type: "cta";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "button_label"?: string | null;
+  "button_url"?: string | null;
+}
+
+export type PageLayoutCtaBlock = PageLayoutCtaV1Block;
+
+export interface PageLayoutFormV1Block {
+  _type: "form";
+  _version: 1;
+  _key: string;
+  "anchor"?: string | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "text"?: string | null;
+  "theme"?: "paper" | "ink" | "cobalt" | "yellow" | "orange" | "raspberry" | null;
+  "form_type"?: "community" | "newsletter" | "artist" | "contact" | "registration" | null;
+}
+
+export type PageLayoutFormBlock = PageLayoutFormV1Block;
+
+export type PageLayoutBlock = PageLayoutHeroBlock | PageLayoutStatementBlock | PageLayoutFeaturesBlock | PageLayoutEventsBlock | PageLayoutArtistsBlock | PageLayoutNewsBlock | PageLayoutGalleryBlock | PageLayoutFaqBlock | PageLayoutCtaBlock | PageLayoutFormBlock;
+
 export interface Page {
   id: string;
   slug: string | null;
   status: string;
   title: string;
+  excerpt?: string;
+  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   content?: PortableTextBlock[];
+  layout?: PageLayoutBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -24,9 +234,9 @@ export interface Post {
   slug: string | null;
   status: string;
   title: string;
+  excerpt?: string;
   featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   content?: PortableTextBlock[];
-  excerpt?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -37,6 +247,9 @@ export interface Post {
 
 declare module "emdash" {
   interface EmDashCollections {
+    artists: Artist;
+    events: Event;
+    galleries: Gallery;
     pages: Page;
     posts: Post;
   }

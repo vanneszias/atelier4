@@ -1,25 +1,133 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "my-emdash-site",
-	"main": "./src/worker.ts",
-	"compatibility_date": "2026-02-24",
-	"compatibility_flags": ["nodejs_compat"],
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "my-emdash-site",
-		},
-	],
-	"r2_buckets": [
-		{
-			"binding": "MEDIA",
-			"bucket_name": "my-emdash-media",
-		},
-	],
-	// Sandboxed plugins require Worker Loader, available on Workers paid plans.
-	"worker_loaders": [{ "binding": "LOADER" }],
-	// General maintenance cron trigger
-	"triggers": {
-		"crons": ["* * * * *"],
-	},
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "atelier4-local",
+  "account_id": "6495d15c9d09b19ddc65f0a01892a183",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+  },
+  "images": {
+    "binding": "IMAGES",
+  },
+  "worker_loaders": [
+    {
+      "binding": "LOADER",
+    },
+  ],
+  "triggers": {
+    "crons": ["* * * * *"],
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "atelier4-staging",
+      "database_id": "247eaa28-254e-4231-9140-b7b6ad8d5e36",
+    },
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "atelier4-media-staging",
+    },
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "3ca8581fcff64c9aa05a456c2ee716a0",
+    },
+  ],
+  "env": {
+    "staging": {
+      "name": "atelier4-staging",
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "atelier4-staging",
+          "database_id": "247eaa28-254e-4231-9140-b7b6ad8d5e36",
+        },
+      ],
+      "r2_buckets": [
+        {
+          "binding": "MEDIA",
+          "bucket_name": "atelier4-media-staging",
+        },
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "SESSION",
+          "id": "3ca8581fcff64c9aa05a456c2ee716a0",
+        },
+      ],
+      "vars": {
+        "EMDASH_SITE_URL": "https://staging.ateliervier.be",
+        "EMDASH_PREVIEW_PATH_PATTERN": "/{locale}/{collection}/{id}",
+        "ATELIER4_ENV": "staging",
+      },
+      "routes": [
+        {
+          "pattern": "staging.ateliervier.be",
+          "custom_domain": true,
+        },
+      ],
+      "worker_loaders": [
+        {
+          "binding": "LOADER",
+        },
+      ],
+      "triggers": {
+        "crons": ["* * * * *"],
+      },
+      "images": {
+        "binding": "IMAGES",
+      },
+    },
+    "live": {
+      "name": "atelier4-live",
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "atelier4-live",
+          "database_id": "7a5ec78f-7351-417d-8953-74732d63b395",
+        },
+      ],
+      "r2_buckets": [
+        {
+          "binding": "MEDIA",
+          "bucket_name": "atelier4-media-live",
+        },
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "SESSION",
+          "id": "4d0055f889be4f5b8bbf304e51e53c6d",
+        },
+      ],
+      "vars": {
+        "EMDASH_SITE_URL": "https://ateliervier.be",
+        "EMDASH_PREVIEW_PATH_PATTERN": "/{locale}/{collection}/{id}",
+        "ATELIER4_ENV": "live",
+      },
+      "routes": [
+        {
+          "pattern": "ateliervier.be",
+          "custom_domain": true,
+        },
+      ],
+      "worker_loaders": [
+        {
+          "binding": "LOADER",
+        },
+      ],
+      "triggers": {
+        "crons": ["* * * * *"],
+      },
+      "images": {
+        "binding": "IMAGES",
+      },
+    },
+  },
 }

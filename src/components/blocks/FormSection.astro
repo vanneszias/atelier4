@@ -1,0 +1,172 @@
+---
+import type { SectionBlock } from "../../lib/blocks";
+import { sectionId, themeClass } from "../../lib/blocks";
+import { localeFromPath, localizedPath, messages } from "../../i18n";
+import { getPluginSetting, getEmDashCollection } from "emdash";
+interface Props {
+  value: SectionBlock;
+}
+const { value } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname),
+  t = messages[locale],
+  type = value.form_type || "community";
+const id = sectionId(value);
+const siteKey = await getPluginSetting<string>(
+  "atelier4-community",
+  "turnstileSiteKey",
+);
+const events =
+  type === "registration"
+    ? (
+        await getEmDashCollection("events", { locale, limit: 100 })
+      ).entries.filter(
+        (e) =>
+          e.data.registration_open &&
+          e.data.event_state === "open" &&
+          !e.data.capacity &&
+          !e.data.registration_url,
+      )
+    : [];
+const selected = Astro.url.searchParams.get("event");
+---
+
+<section id={id} class:list={["section", themeClass(value)]}>
+  <div class="container grid">
+    <div>
+      <span class="eyebrow">{value.eyebrow}</span>
+      <h2 style="white-space:pre-line">{value.heading}</h2>
+      <p>{value.text}</p>
+      {type === "artist" && <p>{t.artistConsent}</p>}
+      <p>
+        <a href="mailto:contact@ateliervier.be">contact@ateliervier.be</a>
+      </p>
+    </div>
+    <div class="form-panel">
+      {type === "registration" && !events.length ? (
+        <p>{t.unavailable}</p>
+      ) : (
+        <form
+          data-community-form
+          data-success={t.success}
+          data-error={t.error}
+          data-sending={t.sending}
+          data-submit={t.submit}
+          data-site-key={siteKey || ""}
+        >
+          <input type="hidden" name="type" value={type} />
+          <input type="hidden" name="locale" value={locale} />
+          <label class="form-field" for={`${id}-name`}>
+            <span>{t.name} *</span>
+            <input
+              id={`${id}-name`}
+              name="name"
+              autocomplete="name"
+              required
+              maxlength="120"
+            />
+          </label>
+          <label class="form-field" for={`${id}-email`}>
+            <span>{t.email} *</span>
+            <input
+              id={`${id}-email`}
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="254"
+            />
+          </label>
+          {["community", "artist"].includes(type) && (
+            <label class="form-field" for={`${id}-discipline`}>
+              <span>
+                {t.discipline}
+                {type === "artist" ? " *" : ""}
+              </span>
+              <input
+                id={`${id}-discipline`}
+                name="discipline"
+                required={type === "artist"}
+                maxlength="300"
+                placeholder={t.disciplineHint}
+              />
+            </label>
+          )}
+          {type === "registration" && (
+            <label class="form-field" for={`${id}-event`}>
+              <span>{t.event} *</span>
+              <select name="eventId" id={`${id}-event`} required>
+                <option value="">{t.selectEvent}</option>
+                {events.map((e) => (
+                  <option
+                    value={String(e.data.id)}
+                    selected={selected === e.data.id}
+                  >
+                    {e.data.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
+          {type !== "newsletter" && (
+            <label class="form-field" for={`${id}-message`}>
+              <span>
+                {t.message}
+                {type === "contact" ? " *" : ""}
+              </span>
+              <textarea
+                id={`${id}-message`}
+                name="message"
+                required={type === "contact"}
+                maxlength="5000"
+              ></textarea>
+            </label>
+          )}
+          {["community", "artist"].includes(type) && (
+            <label class="checkbox">
+              <input type="checkbox" name="help" />
+              <span>{t.help}</span>
+            </label>
+          )}
+          <label class="checkbox">
+            <input
+              type="checkbox"
+              name="updates"
+              required={type === "newsletter"}
+            />
+            <span>
+              {t.updates}
+              {type === "newsletter" ? " *" : ""}
+            </span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="consent" required />
+            <span>
+              {t.consent} *{" "}
+              <a href={localizedPath(locale, "/privacy")}>{t.privacy}</a>
+            </span>
+          </label>
+          <div class="honey" aria-hidden="true">
+            <label>
+              Website
+              <input name="website" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
+          {siteKey && <div data-turnstile></div>}
+          <p class="form-note">* {t.required}</p>
+          <button type="submit" class="button">
+            {t.submit}
+          </button>
+          <p
+            class="form-status"
+            role="status"
+            aria-live="polite"
+            tabindex="-1"
+          ></p>
+        </form>
+      )}
+    </div>
+  </div>
+</section>
+<script>
+  import "../forms-client";
+</script>

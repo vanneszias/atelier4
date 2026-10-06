@@ -1,0 +1,22 @@
+---
+import type { SectionBlock } from "../../lib/blocks";
+import { sectionId, themeClass } from "../../lib/blocks";
+import { safeUrl } from "../../i18n";
+interface Props {
+  value: SectionBlock;
+}
+const { value } = Astro.props;
+---
+
+<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
+  <div class="container">
+    <span class="eyebrow">{value.eyebrow}</span>
+    <h2>{value.heading}</h2>
+    <p>{value.text}</p>
+    {value.button_label && (
+      <a class="button" href={safeUrl(value.button_url)}>
+        {value.button_label}
+      </a>
+    )}
+  </div>
+</section>

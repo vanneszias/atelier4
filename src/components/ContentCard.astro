@@ -1,0 +1,48 @@
+---
+import { Image } from "emdash/ui";
+import { localeFromPath, localizedPath, messages } from "../i18n";
+interface Props {
+  entry: any;
+  collection: string;
+}
+const { entry, collection } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname);
+const t = messages[locale];
+const path = collection === "posts" ? "stories" : collection;
+---
+
+<article class="card">
+  {entry.data.featured_image && (
+    <div {...entry.edit.featured_image}>
+      <Image image={entry.data.featured_image} class="card-image" />
+    </div>
+  )}
+  {collection === "events" && (
+    <>
+      <span class="badge">
+        {entry.data.event_state === "preparation"
+          ? t.preparing
+          : entry.data.location || t.events}
+      </span>
+      <p>
+        {entry.data.starts_at
+          ? new Intl.DateTimeFormat(locale, {
+              dateStyle: "long",
+              timeZone: "Europe/Brussels",
+            }).format(new Date(entry.data.starts_at))
+          : t.dateSoon}
+      </p>
+    </>
+  )}
+  <h3 {...entry.edit.title}>
+    <a href={localizedPath(locale, `/${path}/${entry.id}`)}>
+      {entry.data.title}
+    </a>
+  </h3>
+  <p {...entry.edit.excerpt}>{entry.data.excerpt}</p>
+  {entry.data.discipline && <span>{entry.data.discipline}</span>}
+  <a href={localizedPath(locale, `/${path}/${entry.id}`)}>
+    {t.read}
+    <span class="sr-only">: {entry.data.title}</span>
+  </a>
+</article>

@@ -1,101 +1,223 @@
 ---
-import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
-import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import {
+  getMenuWithCacheHint,
+  getSiteSettingsWithCacheHint,
+  getPluginSetting,
+  getTranslations,
+} from "emdash";
+import {
+  EmDashHead,
+  EmDashBodyStart,
+  EmDashBodyEnd,
+  WidgetArea,
+} from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import LiveSearch from "emdash/ui/search";
-import { resolveStarterSiteIdentity } from "../utils/site-identity";
-
+import {
+  localeFromPath,
+  localizedPath,
+  messages,
+  safeUrl,
+  type Locale,
+} from "../i18n";
+import "../styles/theme.css";
 interface Props {
-	title: string;
-	pageTitle?: string | null;
-	description?: string | null;
-	image?: string | null;
-	canonical?: string | null;
-	/** Pass content reference for plugin page contributions on content pages */
-	content?: { collection: string; id: string; slug?: string | null };
+  title: string;
+  pageTitle?: string | null;
+  description?: string | null;
+  image?: string | null;
+  canonical?: string | null;
+  content?: { collection: string; id: string; slug?: string | null };
 }
-
-const { title, pageTitle, description, image, canonical, content } =
-	Astro.props;
-const [settingsResult, menuResult] = await Promise.all([
-	getSiteSettingsWithCacheHint(),
-	getMenuWithCacheHint("primary"),
+const { title, description, image, canonical, content } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname),
+  t = messages[locale];
+const [settings, menu] = await Promise.all([
+  getSiteSettingsWithCacheHint(),
+  getMenuWithCacheHint("primary_" + locale),
 ]);
 if (Astro.cache?.enabled) {
-	Astro.cache.set(settingsResult.cacheHint);
-	Astro.cache.set(menuResult.cacheHint);
+  Astro.cache.set(settings.cacheHint);
+  Astro.cache.set(menu.cacheHint);
 }
-
-const { siteTitle, siteTagline, siteLogo } = resolveStarterSiteIdentity(
-	settingsResult.data,
-);
-const titleIncludesSiteName =
-	title === siteTitle ||
-	title.endsWith(` | ${siteTitle}`) ||
-	title.endsWith(` — ${siteTitle}`);
-const fullTitle = titleIncludesSiteName ? title : `${title} — ${siteTitle}`;
-const pageDescription = description ?? siteTagline;
-const menu = menuResult.data;
-
+const siteName = settings.data.title || "Atelier 4";
+const fullTitle = title.includes(siteName) ? title : `${title} — ${siteName}`;
+const pageDescription = description || settings.data.tagline;
 const pageCtx = createPublicPageContext({
-	Astro,
-	kind: content ? "content" : "custom",
-	pageType: "website",
-	title: fullTitle,
-	pageTitle: pageTitle ?? title,
-	description: pageDescription,
-	canonical,
-	image,
-	content,
-	siteName: siteTitle,
+  Astro,
+  kind: content ? "content" : "custom",
+  pageType: "website",
+  title: fullTitle,
+  description: pageDescription,
+  canonical,
+  image,
+  content,
+  siteName,
 });
+const stage =
+  Astro.url.hostname.startsWith("staging.") ||
+  Astro.url.hostname === "localhost";
+const openpanelClientId = stage
+  ? ""
+  : await getPluginSetting<string>("atelier4-community", "openpanelClientId");
+const openpanelApiUrl =
+  (await getPluginSetting<string>("atelier4-community", "openpanelApiUrl")) ||
+  "https://api.openpanel.dev";
+const pagePath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+const variants: Partial<Record<Locale, string>> = {
+  nl: localizedPath("nl", pagePath),
+  en: localizedPath("en", pagePath),
+};
+if (content) {
+  const { translations } = await getTranslations(
+    content.collection,
+    content.id,
+  );
+  for (const loc of ["nl", "en"] as Locale[]) {
+    const variant = translations.find(
+      (x) => x.locale === loc && x.status === "published",
+    );
+    if (!variant) {
+      delete variants[loc];
+      continue;
+    }
+    const prefix =
+      content.collection === "pages"
+        ? ""
+        : content.collection === "posts"
+          ? "/stories"
+          : `/${content.collection}`;
+    variants[loc] = localizedPath(
+      loc,
+      content.collection === "pages" && variant.slug === "home"
+        ? "/"
+        : `${prefix}/${variant.slug || variant.id}`,
+    );
+  }
+}
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{fullTitle}</title>
-		<EmDashHead page={pageCtx} />
-	</head>
-	<body>
-		<EmDashBodyStart page={pageCtx} />
-
-		<header>
-			<nav>
-				<a href="/">
-					{
-						siteLogo ? (
-							<img
-								src={siteLogo.url}
-								alt={siteLogo.alt || siteTitle}
-								style="height:48px;width:auto;margin:-8px 0;display:block;"
-							/>
-						) : (
-							siteTitle
-						)
-					}
-				</a>
-				{
-					menu?.items.map((item) => (
-						<a
-							href={item.url}
-							target={item.target}
-							rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
-						>
-							{item.label}
-						</a>
-					))
-				}
-				<LiveSearch placeholder="Search..." collections={["posts", "pages"]} />
-			</nav>
-		</header>
-
-		<main>
-			<slot />
-		</main>
-
-		<EmDashBodyEnd page={pageCtx} />
-	</body>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={pageDescription} />
+    {image && <meta property="og:image" content={image} />}
+    <meta property="og:type" content="website" />
+    {stage && <meta name="robots" content="noindex,nofollow" />}
+    {Object.entries(variants).map(([loc, path]) => (
+      <link
+        rel="alternate"
+        hreflang={loc}
+        href={new URL(path!, Astro.url.origin).href}
+      />
+    ))}
+    {variants.nl && (
+      <link
+        rel="alternate"
+        hreflang="x-default"
+        href={new URL(variants.nl, Astro.url.origin).href}
+      />
+    )}
+    <EmDashHead page={pageCtx} />
+  </head>
+  <body>
+    <EmDashBodyStart page={pageCtx} />
+    <a class="skip-link" href="#main">
+      {t.skip}
+    </a>
+    {stage && <div class="staging-banner">{t.preview}</div>}
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="logo" href={localizedPath(locale)}>
+          <img src="/brand/mark.svg" alt="" width="430" height="370" />
+          {siteName.toUpperCase()}
+        </a>
+        <nav class="nav" aria-label={t.navigation}>
+          {menu.data?.items.map((item) => (
+            <a
+              href={safeUrl(item.url)}
+              target={item.target}
+              rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
+          <a href={localizedPath(locale, "/search")}>{t.search}</a>
+          <div class="locale-switch" aria-label="Language / Taal">
+            {Object.entries(variants).map(([loc, path]) => (
+              <a
+                href={path}
+                lang={loc}
+                hreflang={loc}
+                aria-label={loc === "nl" ? "Nederlands" : "English"}
+                aria-current={loc === locale ? "page" : undefined}
+              >
+                {loc.toUpperCase()}
+              </a>
+            ))}
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="grid">
+          <div>
+            <a class="logo" href={localizedPath(locale)}>
+              {siteName.toUpperCase()}
+            </a>
+            <p style="margin-top:1rem">{t.footer}</p>
+          </div>
+          <div>
+            <a href="mailto:contact@ateliervier.be">contact@ateliervier.be</a>
+            <WidgetArea name={"footer_" + locale} />
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>
+            © {new Date().getFullYear()} {siteName}
+          </span>
+          <a href={localizedPath(locale, "/privacy")}>{t.privacy}</a>
+          {openpanelClientId && (
+            <button data-analytics-settings>{t.analyticsSettings}</button>
+          )}
+          <a href={localizedPath(locale, "/contact")}>{t.contact}</a>
+        </div>
+      </div>
+    </footer>
+    {openpanelClientId && (
+      <aside
+        class="privacy-banner"
+        hidden
+        data-analytics-consent
+        data-client-id={openpanelClientId}
+        data-api-url={openpanelApiUrl}
+        aria-labelledby="analytics-title"
+      >
+        <h2 id="analytics-title">{t.cookies}</h2>
+        <p>{t.analyticsText}</p>
+        <div class="actions">
+          <button class="button" data-analytics-allow>
+            {t.accept}
+          </button>
+          <button class="button secondary" data-analytics-deny>
+            {t.decline}
+          </button>
+        </div>
+      </aside>
+    )}
+    <EmDashBodyEnd page={pageCtx} />
+  </body>
 </html>
+<script>
+  import "../components/analytics-client";
+</script>

@@ -1,0 +1,34 @@
+---
+import { getEmDashCollection } from "emdash";
+import ContentCard from "../ContentCard.astro";
+import type { SectionBlock } from "../../lib/blocks";
+import { sectionId, themeClass } from "../../lib/blocks";
+import { localeFromPath, messages } from "../../i18n";
+interface Props {
+  value: SectionBlock;
+}
+const { value } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname);
+const collection = value._type === "news" ? "posts" : value._type;
+const { entries, cacheHint } = await getEmDashCollection(collection, {
+  locale,
+  limit: Math.min(24, Math.max(1, value.limit || 6)),
+});
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
+  <div class="container">
+    <span class="eyebrow">{value.eyebrow}</span>
+    <div class="split-heading">
+      <h2 style="white-space:pre-line">{value.heading}</h2>
+      <p>{value.text}</p>
+    </div>
+    <div class="grid">
+      {entries.map((entry) => (
+        <ContentCard entry={entry} collection={collection} />
+      ))}
+    </div>
+    {!entries.length && <p>{messages[locale].empty}</p>}
+  </div>
+</section>

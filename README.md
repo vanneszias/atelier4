@@ -1,55 +1,21 @@
-# EmDash Starter Template (Cloudflare)
+# Atelier 4
 
-A general-purpose starting point for building sites with [EmDash](https://github.com/emdash-cms/emdash) on Cloudflare Workers. Includes posts, pages, categories, and tags with minimal styling -- designed as a base you can build on rather than a finished theme.
+A modular, accessible NL/EN website for young people discovering Jesus and art together, growing out of Kunstenkamp. Built with Astro and EmDash on Cloudflare Workers, D1, R2, Images and KV.
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/emdash-cms/templates/tree/main/starter-cloudflare)
-
-## What's Included
-
-- Posts with category and tag archives
-- Static pages via slug routing
-- Seed data with demo content
-- D1 database and R2 storage pre-configured
-
-## Pages
-
-| Page | Route |
-|---|---|
-| Homepage | `/` |
-| All posts | `/posts` |
-| Single post | `/posts/:slug` |
-| Category archive | `/category/:slug` |
-| Tag archive | `/tag/:slug` |
-| Static pages | `/:slug` |
-| 404 | fallback |
-
-## Infrastructure
-
-- **Runtime:** Cloudflare Workers
-- **Database:** D1
-- **Storage:** R2
-- **Framework:** Astro with `@astrojs/cloudflare`
-
-## Local Development
-
-```bash
-bun install
+```sh
+bun install --frozen-lockfile
 bun dev
 ```
 
-Open http://localhost:4321/_emdash/admin and complete the setup wizard. EmDash runs database migrations and applies the starter seed during setup. The site is available at http://localhost:4321.
+CMS: `http://localhost:4321/_emdash/admin`.
 
-## Deploying
+The landing page is composed of typed editable blocks. Events, artist profiles, stories and galleries use live CMS content. Private forms are managed through the community plugin. The brand assets are derived from the supplied Atelier4 SVG; typography uses Futura with a bundled Jost fallback.
 
-```bash
-bun wrangler login
-bun run deploy
-```
+| Branch  | Environment                             | Domain                 |
+| ------- | --------------------------------------- | ---------------------- |
+| develop | staging, protected by Cloudflare Access | staging.ateliervier.be |
+| master  | live                                    | ateliervier.be         |
 
-The first deployment provisions the named D1 database and R2 bucket from `wrangler.jsonc`. See [Deploy to Cloudflare](https://docs.emdashcms.com/deployment/cloudflare/) for production setup, or use the deploy button above.
+Pushes deploy their environment. The manual **Release** workflow promotes a successfully staged develop commit to master, creates a version tag, deploys live and publishes a GitHub Release. Master pushes also support hotfixes.
 
-## See Also
-
-- [Node.js variant](../starter) -- same template using SQLite and local file storage
-- [All templates](../)
-- [EmDash documentation](https://docs.emdashcms.com/)
+See [operations, setup, editing, releases and content transfer](docs/OPERATIONS.md). Deployment requires `CLOUDFLARE_API_TOKEN`; OpenPanel requires your public project client ID. Separate environment infrastructure is defined in `wrangler.jsonc`.

@@ -12,3 +12,10 @@ data.db
 !.env.example
 .dev.vars
 .dev.vars.*
+
+# Private CMS transfer packages and local tooling
+.backups/
+*.emdash
+.emdash/schema.json
+.emdash/types.ts
+test-results/

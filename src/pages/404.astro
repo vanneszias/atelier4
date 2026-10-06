@@ -1,9 +1,15 @@
 ---
 import Base from "../layouts/Base.astro";
+import { messages, localizedPath } from "../i18n";
+Astro.response.status = 404;
+const t = messages.nl;
 ---
 
-<Base title="Not Found">
-	<h1>Page not found</h1>
-	<p>The page you're looking for doesn't exist.</p>
-	<a href="/">Go home</a>
+<Base title={t.notFound}>
+  <section class="container article">
+    <h1>{t.notFound}</h1>
+    <a class="button" href={localizedPath("nl")}>
+      {t.home}
+    </a>
+  </section>
 </Base>

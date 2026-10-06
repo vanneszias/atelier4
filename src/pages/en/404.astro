@@ -1,0 +1,15 @@
+---
+import Base from "../../layouts/Base.astro";
+import { messages, localizedPath } from "../../i18n";
+Astro.response.status = 404;
+const t = messages.en;
+---
+
+<Base title={t.notFound}>
+  <section class="container article">
+    <h1>{t.notFound}</h1>
+    <a class="button" href={localizedPath("en")}>
+      {t.home}
+    </a>
+  </section>
+</Base>

@@ -1,0 +1,27 @@
+---
+import type { SectionBlock } from "../../lib/blocks";
+import { sectionId, themeClass } from "../../lib/blocks";
+interface Props {
+  value: SectionBlock;
+}
+const { value } = Astro.props;
+---
+
+<section id={sectionId(value)} class:list={["section", themeClass(value)]}>
+  <div class="container">
+    <span class="eyebrow">{value.eyebrow}</span>
+    <h2>{value.heading}</h2>
+    <p>{value.text}</p>
+    <div class="grid three">
+      {value.items?.map((item, i) => (
+        <div class="card">
+          <div class="card-number" aria-hidden="true">
+            {String(i + 1).padStart(2, "0")}.
+          </div>
+          <h3>{item.heading}</h3>
+          <p>{item.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

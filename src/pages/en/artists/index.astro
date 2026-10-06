@@ -1,0 +1,36 @@
+---
+import { getEmDashCollection } from "emdash";
+import Base from "../../../layouts/Base.astro";
+import ContentCard from "../../../components/ContentCard.astro";
+import { messages } from "../../../i18n";
+const t = messages.en;
+const { entries, error, nextCursor, cacheHint } = await getEmDashCollection(
+  "artists",
+  {
+    locale: "en",
+    limit: 12,
+    cursor: Astro.url.searchParams.get("cursor") || undefined,
+    orderBy: { published_at: "desc" },
+  },
+);
+if (error) return new Response("Content unavailable", { status: 503 });
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<Base title={t.artists}>
+  <section class="container article">
+    <span class="eyebrow">Atelier 4</span>
+    <h1>{t.artists}</h1>
+    <div class="grid">
+      {entries.map((entry) => (
+        <ContentCard entry={entry} collection="artists" />
+      ))}
+    </div>
+    {!entries.length && <p>{t.empty}</p>}
+    {nextCursor && (
+      <a class="button" href={"?cursor=" + encodeURIComponent(nextCursor)}>
+        {t.next}
+      </a>
+    )}
+  </section>
+</Base>

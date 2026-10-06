@@ -1,0 +1,56 @@
+---
+import {
+  getTaxonomyTermsWithCacheHint,
+  getEmDashCollection,
+  decodeSlug,
+} from "emdash";
+import Base from "../layouts/Base.astro";
+import ContentCard from "./ContentCard.astro";
+import { localeFromPath, messages } from "../i18n";
+interface Props {
+  taxonomy: "category" | "tag" | "discipline";
+}
+const { taxonomy } = Astro.props;
+const locale = localeFromPath(Astro.url.pathname),
+  t = messages[locale];
+const terms = await getTaxonomyTermsWithCacheHint(taxonomy, {
+  includeCounts: false,
+});
+const term = terms.data.find(
+  (item) => item.slug === decodeSlug(Astro.params.slug),
+);
+if (!term) return Astro.rewrite(locale === "en" ? "/en/404" : "/404");
+const result = await getEmDashCollection("posts", {
+  locale,
+  where: { [taxonomy]: term.slug },
+  limit: 12,
+  cursor: Astro.url.searchParams.get("cursor") || undefined,
+  orderBy: { published_at: "desc" },
+});
+if (result.error) return new Response("Content unavailable", { status: 503 });
+if (Astro.cache?.enabled) {
+  Astro.cache.set(terms.cacheHint);
+  Astro.cache.set(result.cacheHint);
+}
+---
+
+<Base title={term.label}>
+  <section class="container article">
+    <span class="eyebrow">Atelier 4</span>
+    <h1>{term.label}</h1>
+    <div class="grid">
+      {result.entries.map((entry) => (
+        <ContentCard entry={entry} collection="posts" />
+      ))}
+    </div>
+    {!result.entries.length && <p>{t.empty}</p>}
+    {result.nextCursor && (
+      <a
+        class="button"
+        href={"?cursor=" + encodeURIComponent(result.nextCursor)}
+      >
+        {t.next}
+      </a>
+    )}
+  </section>
+</Base>
