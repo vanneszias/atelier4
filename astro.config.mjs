@@ -32,6 +32,7 @@ export default defineConfig({
           ).pathname,
           adminPages: [
             { path: "/submissions", label: "Community & forms", icon: "users" },
+            { path: "/availability", label: "Site availability", icon: "settings" },
           ],
         },
       ],

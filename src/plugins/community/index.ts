@@ -1,6 +1,7 @@
 import { definePlugin } from "emdash";
 import { submissionSchema, type Submission } from "./validation";
 import { z } from "zod";
+import { availabilityKey, availabilitySchema, readAvailability } from "../../lib/maintenance";
 
 export function createPlugin() {
   return definePlugin({
@@ -17,6 +18,7 @@ export function createPlugin() {
       // Worker modules do not expose a filesystem URL at runtime.
       pages: [
         { path: "/submissions", label: "Community & forms", icon: "users" },
+        { path: "/availability", label: "Site availability", icon: "settings" },
       ],
       settingsSchema: {
         openpanelClientId: {
@@ -59,6 +61,27 @@ export function createPlugin() {
       },
     },
     routes: {
+      availability: {
+        permission: "settings:manage",
+        methods: ["GET"],
+        handler: async (ctx) => {
+          return {
+            ok: true,
+            availability: readAvailability(await ctx.settings.get(availabilityKey)),
+          };
+        },
+      },
+      "availability-save": {
+        permission: "settings:manage",
+        methods: ["POST"],
+        request: { body: "json", maxBytes: 16384 },
+        handler: async (ctx) => {
+          const parsed = availabilitySchema.safeParse(ctx.input);
+          if (!parsed.success) return { ok: false, error: "VALIDATION" };
+          await ctx.settings.set(availabilityKey, parsed.data);
+          return { ok: true, availability: parsed.data };
+        },
+      },
       submit: {
         public: true,
         methods: ["POST"],
