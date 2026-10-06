@@ -13,15 +13,13 @@ const lines = (value.heading || "").split("\n");
 ---
 
 <section id={sectionId(value)} class:list={["hero", themeClass(value)]}>
-  <div class="container hero-poster">
+  <div class:list={["container", "hero-poster", { "has-image": !!value.image }]}>
     <div class="hero-headline">
       <Heading class="hero-title">
         {lines.map((line) => <span>{line}</span>)}
       </Heading>
     </div>
-    <div class="hero-art" aria-hidden={!value.image}>
-      {value.image ? <Image image={value.image} /> : <img src="/brand/microphone.webp" alt="" width="1000" height="1424" fetchpriority="high" />}
-    </div>
+    {value.image && <div class="hero-art"><Image image={value.image} /></div>}
     <div class="hero-copy">
       {value.text && <p>{value.text}</p>}
       <div class="actions">
