@@ -27,6 +27,15 @@ try {
       });
       assert.equal(response.status, 200, "Fresh CMS setup must render");
       assert.match(await response.text(), /<html/);
+      // The admin HTML can render even when middleware initialization fails.
+      // Exercise the API the setup UI actually needs before declaring readiness.
+      const status = await fetch(`${origin}/_emdash/api/setup/status`, {
+        redirect: "manual", signal: AbortSignal.timeout(10000),
+      });
+      assert.equal(status.status, 200, "Fresh CMS setup API must initialize");
+      const setup = await status.json();
+      assert.equal(setup.success, true);
+      assert.equal(setup.data.needsSetup, true);
       ready = true;
       break;
     } catch { await delay(500); }
@@ -41,7 +50,7 @@ try {
   const missing = await fetch(`${origin}/not-a-real-page`);
   assert.equal(missing.status, 404);
   assert.match(await missing.text(), /Atelier 4/);
-  console.log("Production Worker startup, NL/EN routes and rendered 404 passed.");
+  console.log("Production Worker setup API, NL/EN routes and rendered 404 passed.");
 } catch (error) {
   console.error(logs);
   throw error;
