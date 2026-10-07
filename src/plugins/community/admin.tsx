@@ -21,7 +21,8 @@ const adminStyles = `
 .a4-admin .a4-actions { display: flex; align-items: center; gap: .625rem; flex-wrap: wrap; }
 .a4-admin .a4-field { display: grid; gap: .5rem; min-width: 0; }
 .a4-admin .a4-label { font-weight: 550; }
-.a4-admin select, .a4-admin textarea { border: 1px solid var(--a4-border); border-radius: .5rem; background: var(--a4-surface); color: inherit; font: inherit; }
+.a4-admin select, .a4-admin textarea, .a4-admin input[type="password"] { border: 1px solid var(--a4-border); border-radius: .5rem; background: var(--a4-surface); color: inherit; font: inherit; }
+.a4-admin input[type="password"] { width: 100%; min-height: 2.75rem; padding: .75rem; }
 .a4-admin select { min-width: 12rem; min-height: 2.5rem; padding: .5rem 2rem .5rem .75rem; }
 .a4-admin textarea { display: block; width: 100%; padding: .875rem; min-height: 10rem; resize: vertical; line-height: 1.6; }
 .a4-admin select:focus-visible, .a4-admin textarea:focus-visible, .a4-admin input:focus-visible, .a4-admin .a4-scroll:focus-visible { outline: 2px solid var(--color-kumo-brand, #7373e8); outline-offset: 3px; }
@@ -378,6 +379,9 @@ function Availability() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [hasAccessCode, setHasAccessCode] = useState(false);
+  const [accessCode, setAccessCode] = useState("");
+  const [removeAccessCode, setRemoveAccessCode] = useState(false);
   async function load() {
     setLoading(true);
     setError("");
@@ -386,6 +390,9 @@ function Availability() {
       if (!result.ok) throw Error();
       setValue(result.availability);
       setSaved(result.availability);
+      setHasAccessCode(result.hasAccessCode);
+      setAccessCode("");
+      setRemoveAccessCode(false);
     } catch {
       setError("Could not load site availability. Try again.");
     } finally {
@@ -402,11 +409,18 @@ function Availability() {
     try {
       const result = await api("/availability-save", {
         method: "POST",
-        body: JSON.stringify(value),
+        body: JSON.stringify({
+          ...value,
+          ...(accessCode.trim() ? { accessCode: accessCode.trim() } : {}),
+          removeAccessCode,
+        }),
       });
       if (!result.ok) throw Error();
       setValue(result.availability);
       setSaved(result.availability);
+      setHasAccessCode(result.hasAccessCode);
+      setAccessCode("");
+      setRemoveAccessCode(false);
       const staging =
         window.location.hostname.startsWith("staging.") ||
         window.location.hostname === "localhost";
@@ -414,7 +428,9 @@ function Availability() {
         staging
           ? "Saved in staging. The production website has not changed."
           : result.availability.offline
-            ? "Saved. Production visitors now see your maintenance message."
+            ? result.hasAccessCode
+              ? "Saved. Visitors can enter your access code to view the website."
+              : "Saved. Production visitors now see your maintenance message."
             : "Saved. The production website is online.",
       );
     } catch {
@@ -427,7 +443,7 @@ function Availability() {
   }
   const dirty =
     saved &&
-    (saved.offline !== value.offline || saved.message !== value.message);
+    (saved.offline !== value.offline || saved.message !== value.message || !!accessCode.trim() || removeAccessCode);
   return (
     <AdminPage
       title="Site availability"
@@ -517,6 +533,36 @@ function Availability() {
                     {value.message.length.toLocaleString()} / 3,000
                   </span>
                 </div>
+              </div>
+              <div className="a4-field">
+                <label className="a4-label" htmlFor="maintenance-access-code">
+                  {hasAccessCode ? "Change access code" : "Access code"}
+                </label>
+                <input
+                  id="maintenance-access-code"
+                  type="password"
+                  autoComplete="new-password"
+                  minLength={6}
+                  maxLength={128}
+                  value={accessCode}
+                  disabled={removeAccessCode}
+                  onChange={(event) => { setAccessCode(event.target.value); setNotice(""); }}
+                  aria-describedby="maintenance-code-help"
+                  placeholder={hasAccessCode ? "A code is already set" : "Set a code to allow visitors in"}
+                />
+                <p className="a4-help" id="maintenance-code-help">
+                  6–128 characters, case sensitive. {hasAccessCode ? "Leave empty to keep the current code. " : "Optional. "}
+                  Anyone with the code can view the site while it is offline. Access lasts seven days in their browser.
+                </p>
+                {hasAccessCode && (
+                  <label className="a4-toggle">
+                    <input type="checkbox" checked={removeAccessCode} onChange={(event) => {
+                      setRemoveAccessCode(event.target.checked); setAccessCode(""); setNotice("");
+                    }} />
+                    <span>Remove the access code</span>
+                  </label>
+                )}
+                <p className="a4-help">Changing or removing the code revokes existing visitor access.</p>
               </div>
               <p className="a4-help">
                 Applies to this environment only. Changes in staging do not

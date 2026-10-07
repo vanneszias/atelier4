@@ -1,7 +1,8 @@
 import { definePlugin } from "emdash";
 import { submissionSchema, type Submission } from "./validation";
 import { z } from "zod";
-import { availabilityKey, availabilitySchema, readAvailability } from "../../lib/maintenance";
+import { availabilityKey, availabilityUpdateSchema, readAvailability } from "../../lib/maintenance";
+import { createSiteAccess, readSiteAccess } from "../../lib/site-access";
 
 export function createPlugin() {
   return definePlugin({
@@ -65,9 +66,11 @@ export function createPlugin() {
         permission: "settings:manage",
         methods: ["GET"],
         handler: async (ctx) => {
+          const stored = await ctx.settings.get(availabilityKey);
           return {
             ok: true,
-            availability: readAvailability(await ctx.settings.get(availabilityKey)),
+            availability: readAvailability(stored),
+            hasAccessCode: !!readSiteAccess(stored),
           };
         },
       },
@@ -76,10 +79,15 @@ export function createPlugin() {
         methods: ["POST"],
         request: { body: "json", maxBytes: 16384 },
         handler: async (ctx) => {
-          const parsed = availabilitySchema.safeParse(ctx.input);
+          const parsed = availabilityUpdateSchema.safeParse(ctx.input);
           if (!parsed.success) return { ok: false, error: "VALIDATION" };
-          await ctx.settings.set(availabilityKey, parsed.data);
-          return { ok: true, availability: parsed.data };
+          const current = await ctx.settings.getVersioned(availabilityKey);
+          const access = parsed.data.removeAccessCode ? undefined : parsed.data.accessCode
+            ? await createSiteAccess(parsed.data.accessCode) : readSiteAccess(current?.value);
+          const availability = readAvailability(parsed.data);
+          const result = await ctx.settings.compareAndSet(availabilityKey, current?.revision ?? null, { ...availability, ...(access ? { access } : {}) });
+          if (!result.applied) return { ok: false, error: "CONFLICT" };
+          return { ok: true, availability, hasAccessCode: !!access };
         },
       },
       submit: {

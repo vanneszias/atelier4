@@ -5,6 +5,7 @@ import { DatabaseSync } from "node:sqlite";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
+import { accessCookie, createSiteAccess, issueAccessToken, verifyAccessToken } from "../src/lib/site-access.ts";
 
 // Exercise the built Worker, not Astro's development server. A fresh local DB
 // catches startup failures without touching either remote environment.
@@ -62,7 +63,7 @@ try {
   try {
     const set = db.prepare("INSERT INTO options (name, value, revision) VALUES (?, ?, ?) ON CONFLICT(name) DO UPDATE SET value = excluded.value, revision = excluded.revision");
     const message = "We zijn aan het werk!\n<script>alert('test')</script>";
-    const store = (offline, text = message) => set.run("plugin:atelier4-community:settings:siteAvailability", JSON.stringify({ offline, message: text }), crypto.randomUUID());
+    const store = (offline, text = message, access) => set.run("plugin:atelier4-community:settings:siteAvailability", JSON.stringify({ offline, message: text, ...(access ? { access } : {}) }), crypto.randomUUID());
     store(true);
     const live = builtConfig.vars?.ATELIER4_ENV === "live";
     for (const route of testRoutes) {
@@ -85,6 +86,57 @@ try {
       assert.equal(await head.text(), "");
       const submit = await fetch(origin + "/_emdash/api/plugins/atelier4-community/submit", { method: "POST" });
       assert.equal(submit.status, 503);
+      const access = await createSiteAccess("atelier-test-code");
+      store(true, message, access);
+      const gate = await (await fetch(origin + "/en/events?from=test")).text();
+      assert.match(gate, /Have an access code/);
+      for (const secret of ["atelier-test-code", access.hash, access.sessionKey]) assert(!gate.includes(secret), "Visitor HTML must never contain access credentials");
+      const unlock = (code, next = "/en/events?from=test", headers = {}) => fetch(origin + "/site-access/unlock", {
+        method: "POST", redirect: "manual", headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded", ...headers },
+        body: new URLSearchParams({ code, next }),
+      });
+      const wrong = await unlock("wrong-code");
+      assert.equal(wrong.status, 403);
+      assert.equal(wrong.headers.get("set-cookie"), null);
+      assert.match(await wrong.text(), /Die code klopt niet/);
+      assert.equal((await unlock("atelier-test-code", "/events", { Origin: "https://example.com" })).status, 403);
+      const unlocked = await unlock("atelier-test-code");
+      assert.equal(unlocked.status, 303);
+      assert.equal(unlocked.headers.get("location"), "/en/events?from=test");
+      const cookie = unlocked.headers.get("set-cookie");
+      assert(cookie);
+      for (const attribute of ["Secure", "HttpOnly", "SameSite=Lax", "Path=/", "Max-Age=604800"]) assert(cookie.includes(attribute));
+      const credential = cookie.split(";")[0];
+      assert.equal((await fetch(origin + "/events", { headers: { Cookie: credential } })).status, 200);
+      assert.equal((await fetch(origin + "/en/events", { headers: { Cookie: credential } })).status, 200);
+      assert.equal((await fetch(origin + "/events")).status, 503, "Other visitors must remain blocked");
+      const token = credential.slice(credential.indexOf("=") + 1);
+      const tampered = token.slice(0, -1) + (token.endsWith("0") ? "1" : "0");
+      assert.equal((await fetch(origin + "/events", { headers: { Cookie: `${accessCookie}=${tampered}` } })).status, 503);
+      const expired = await issueAccessToken(access, Date.now() - 8 * 86400000);
+      assert.equal(await verifyAccessToken(expired, access), false);
+      assert.equal((await fetch(origin + "/events", { headers: { Cookie: `${accessCookie}=${expired}` } })).status, 503);
+      const redirect = await unlock("atelier-test-code", "//example.com");
+      assert.equal(redirect.headers.get("location"), "/", "Access form cannot redirect to another website");
+      for (let index = 0; index < 12; index++) assert.equal((await unlock("atelier-test-code")).status, 303, "Successful visitors on shared Wi-Fi must not consume the failed-guess limit");
+      // A visitor access cookie must never become an admin session.
+      const admin = await fetch(origin + "/_emdash/api/plugins/atelier4-community/availability", {
+        redirect: "manual", headers: { Cookie: credential, "X-EmDash-Request": "1" },
+      });
+      assert([401, 403, 302, 307].includes(admin.status));
+      const replacement = await createSiteAccess("replacement-code");
+      store(true, message, replacement);
+      assert.equal((await fetch(origin + "/events", { headers: { Cookie: credential } })).status, 503, "Changing the code must revoke existing access");
+      assert.equal((await unlock("atelier-test-code")).status, 403, "The old code must stop working");
+      assert.equal((await unlock("replacement-code")).status, 303);
+      store(true);
+      assert.equal((await fetch(origin + "/events", { headers: { Cookie: credential } })).status, 503, "Removing the code must revoke existing access");
+      store(true, message, await createSiteAccess("rate-limit-code"));
+      for (let index = 0; index < 10; index++) assert.equal((await unlock("wrong-code")).status, 403);
+      const limited = await unlock("rate-limit-code");
+      assert.equal(limited.status, 429);
+      assert.equal(limited.headers.get("retry-after"), "600");
+      console.log("Visitor code entry, signed sessions, expiry, revocation and rate limiting passed.");
     }
     for (const route of ["/_emdash/admin/setup", "/_emdash/api/setup/status", "/brand/mark.svg"]) {
       assert.equal((await fetch(origin + route)).status, 200, `Offline mode must preserve ${route}`);
