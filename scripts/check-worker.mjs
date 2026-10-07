@@ -61,6 +61,9 @@ try {
   assert(file, "Expected isolated local D1 state");
   const db = new DatabaseSync(join(state, "v3/d1", file));
   try {
+    // Miniflare also uses this database. Wait for its short background writes
+    // rather than failing immediately if a settings update overlaps one.
+    db.exec("PRAGMA busy_timeout = 5000");
     const set = db.prepare("INSERT INTO options (name, value, revision) VALUES (?, ?, ?) ON CONFLICT(name) DO UPDATE SET value = excluded.value, revision = excluded.revision");
     const message = "We zijn aan het werk!\n<script>alert('test')</script>";
     const store = (offline, text = message, access) => set.run("plugin:atelier4-community:settings:siteAvailability", JSON.stringify({ offline, message: text, ...(access ? { access } : {}) }), crypto.randomUUID());
